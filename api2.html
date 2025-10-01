@@ -471,6 +471,77 @@
             background: linear-gradient(var(--secondary), var(--primary));
         }
         
+        /* === Neon 3D Overlays (Appended) === */
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-pink: #ff00ff;
+            --neon-green: #39ff14;
+            --true-black: #000000;
+        }
+
+        body {
+            background: radial-gradient(1200px 800px at 10% 10%, rgba(0,255,255,0.06), transparent 60%),
+                        radial-gradient(1000px 700px at 90% 80%, rgba(255,0,255,0.05), transparent 60%),
+                        linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,1));
+            color: var(--neon-cyan);
+            perspective: 1200px;
+        }
+
+        /* 3D glass containers */
+        .api-table,
+        .terminal,
+        .category-nav,
+        .search-bar {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(0,255,255,0.25);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 30px rgba(0,255,255,0.12) inset;
+            transform: translateZ(0);
+        }
+
+        /* Text accents */
+        .main-title { text-shadow: 0 0 12px var(--neon-cyan), 0 0 28px var(--neon-pink); }
+        .subtitle { color: rgba(0,255,255,0.8); }
+        .endpoint { color: var(--neon-green); text-shadow: 0 0 6px rgba(57,255,20,0.6); }
+        a, .test-api { color: var(--neon-pink); }
+
+        /* Tabs and categories color-coding */
+        .nav-item { color: #d0f8ff; border-color: rgba(0,255,255,0.35); }
+        .nav-item.active { color: var(--true-black); background: var(--neon-cyan); box-shadow: 0 0 18px var(--neon-cyan); }
+        .nav-item[data-category="network"] { border-color: var(--neon-cyan); }
+        .nav-item[data-category="security"] { border-color: var(--neon-pink); }
+        .nav-item[data-category="government"] { border-color: var(--neon-green); }
+        .nav-item[data-category="pentest"] { border-color: #ffd700; }
+        .nav-item[data-category="mobile"] { border-color: #7df9ff; }
+        .nav-item[data-category="common"] { border-color: #00e5ff; }
+        .nav-item[data-category="telecom"] { border-color: #ff6ec7; }
+        .nav-item[data-category="crypto"] { border-color: #00ffa6; }
+        .nav-item[data-category="datamining"] { border-color: #b19cd9; }
+        .nav-item[data-category="illegal"] { border-color: #ff1744; }
+
+        /* Section header accents per category */
+        [data-category="network"] .category-title { color: var(--neon-cyan); border-image: linear-gradient(90deg, var(--neon-cyan), transparent) 1; }
+        [data-category="security"] .category-title { color: var(--neon-pink); border-image: linear-gradient(90deg, var(--neon-pink), transparent) 1; }
+        [data-category="government"] .category-title { color: var(--neon-green); border-image: linear-gradient(90deg, var(--neon-green), transparent) 1; }
+        [data-category="pentest"] .category-title { color: #ffd700; border-image: linear-gradient(90deg, #ffd700, transparent) 1; }
+        [data-category="mobile"] .category-title { color: #7df9ff; border-image: linear-gradient(90deg, #7df9ff, transparent) 1; }
+        [data-category="common"] .category-title { color: #00e5ff; border-image: linear-gradient(90deg, #00e5ff, transparent) 1; }
+        [data-category="telecom"] .category-title { color: #ff6ec7; border-image: linear-gradient(90deg, #ff6ec7, transparent) 1; }
+        [data-category="crypto"] .category-title { color: #00ffa6; border-image: linear-gradient(90deg, #00ffa6, transparent) 1; }
+        [data-category="datamining"] .category-title { color: #b19cd9; border-image: linear-gradient(90deg, #b19cd9, transparent) 1; }
+        [data-category="illegal"] .category-title { color: #ff1744; border-image: linear-gradient(90deg, #ff1744, transparent) 1; }
+
+        /* Legibility helpers */
+        th, td { color: #e6fbff; }
+        .status-indicator { color: #c9f9ff; }
+        .health-excellent { color: var(--neon-green); text-shadow: 0 0 8px rgba(57,255,20,0.5); }
+        .health-good { color: var(--neon-cyan); }
+        .health-fair { color: #ffd700; }
+        .health-poor { color: #ff1744; }
+
+        /* 3D hover lift */
+        .api-table tr:hover td { transform: translateZ(20px) translateX(6px); box-shadow: 0 8px 24px rgba(0,255,255,0.12); }
+        .nav-item:hover { box-shadow: 0 0 16px var(--neon-cyan), 0 0 28px rgba(255,0,255,0.5); transform: translateZ(12px); }
+        
         /* Terminal effect for code */
         .terminal {
             position: relative;
