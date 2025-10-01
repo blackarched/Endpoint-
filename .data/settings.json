@@ -1,0 +1,10 @@
+{
+  "theme": "dark",
+  "autoRefresh": true,
+  "refreshInterval": 30000,
+  "healthMonitoring": true,
+  "statusNotifications": true,
+  "healthAlerts": true,
+  "holographicEffects": true,
+  "defaultExportFormat": "csv"
+}
