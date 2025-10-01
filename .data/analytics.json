@@ -1,0 +1,10 @@
+{
+  "github": {
+    "calls": 1,
+    "successes": 1,
+    "failures": 0,
+    "totalResponseTime": 104,
+    "lastCalled": "2025-10-01T18:53:52.853Z",
+    "healthScore": 95
+  }
+}

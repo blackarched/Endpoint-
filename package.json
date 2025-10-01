@@ -1,0 +1,19 @@
+{
+  "name": "holographic-api-interface-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend server providing health, APIs listing, test simulation, analytics, export, settings, and key management endpoints for the holographic API interface",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+
