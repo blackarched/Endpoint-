@@ -1,0 +1,4203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holographic API Interface | Complete Network & Security Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #00f3ff;
+            --secondary: #9d4edd;
+            --accent: #ff00c8;
+            --danger: #ff003c;
+            --warning: #ff9e00;
+            --success: #00ff88;
+            --dark: #0a0a16;
+            --darker: #050510;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glow-primary: 0 0 15px var(--primary), 0 0 30px var(--primary);
+            --glow-secondary: 0 0 15px var(--secondary), 0 0 30px var(--secondary);
+            --glow-accent: 0 0 15px var(--accent), 0 0 30px var(--accent);
+            --glow-danger: 0 0 15px var(--danger), 0 0 30px var(--danger);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--darker);
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 200, 0.03) 0%, transparent 30%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Animated background elements */
+        .hologram-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            top: 60%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+        
+        .shape-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            top: 30%;
+            left: 70%;
+            animation-delay: -10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.9); }
+            75% { transform: translate(-50px, -30px) scale(1.05); }
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: var(--glow-primary);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary); }
+            100% { text-shadow: 0 0 15px var(--secondary), 0 0 30px var(--secondary), 0 0 45px var(--accent); }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #a0a0ff;
+            font-weight: 300;
+        }
+        
+        /* Navigation */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(5, 5, 16, 0.7);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .nav-item {
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #c0c0ff;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-item:hover::before {
+            left: 100%;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .nav-item.active {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+        
+        .category-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .category-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, var(--primary), transparent) 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .category-title i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        /* Glass Table */
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .api-table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(157, 78, 221, 0.05));
+            z-index: -1;
+        }
+        
+        .api-table th {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+        }
+        
+        .api-table th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+        
+        .api-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+        
+        .api-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .api-table tr:hover td {
+            background: rgba(0, 243, 255, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .endpoint {
+            font-family: 'Courier New', monospace;
+            color: var(--success);
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .endpoint::before {
+            content: '>';
+            color: var(--primary);
+            margin-right: 5px;
+        }
+        
+        .paid {
+            color: var(--warning);
+            font-weight: 600;
+            position: relative;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(255, 158, 0, 0.1);
+            border: 1px solid rgba(255, 158, 0, 0.3);
+        }
+        
+        .illegal {
+            color: var(--danger);
+            font-weight: 600;
+            position: relative;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            animation: pulseDanger 2s infinite;
+        }
+        
+        @keyframes pulseDanger {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 60, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(255, 0, 60, 0.8); }
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--darker);
+            font-size: 1.5rem;
+            box-shadow: var(--glow-primary);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .search-bar::placeholder {
+            color: #a0a0ff;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--glass-border);
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .category-nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .api-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .category-title {
+                font-size: 1.7rem;
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--secondary), var(--primary));
+        }
+        
+        /* Terminal effect for code */
+        .terminal {
+            position: relative;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0, 243, 255, 0.03) 50%);
+            background-size: 100% 4px;
+            z-index: 0;
+        }
+        
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 10px;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: var(--danger); }
+        .dot-yellow { background: var(--warning); }
+        .dot-green { background: var(--success); }
+        
+        .terminal-title {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .terminal-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .terminal-prompt {
+            color: var(--success);
+            margin-right: 0.5rem;
+        }
+        
+        .terminal-command {
+            color: #e0e0ff;
+        }
+        
+        .terminal-output {
+            color: #a0a0ff;
+            margin-left: 1.5rem;
+        }
+        
+        /* Status indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulseStatus 2s infinite;
+        }
+        
+        .status-active .status-dot {
+            background: var(--success);
+        }
+        
+        .status-inactive .status-dot {
+            background: var(--warning);
+        }
+        
+        .status-warning .status-dot {
+            background: var(--danger);
+        }
+        
+        @keyframes pulseStatus {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* API Usage Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(157, 78, 221, 0.05));
+            z-index: -1;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .stat-label {
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 16, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--dark);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glow-primary);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 243, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* API Key Input */
+        .api-key-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .api-key-input input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        .api-key-input button {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            background: var(--primary);
+            color: var(--darker);
+            border: none;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .api-key-input button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast.success {
+            border-left-color: var(--success);
+        }
+        
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .quick-action {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #c0c0ff;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-action:hover {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        /* Filter Panel */
+        .filter-panel {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .filter-panel h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            min-width: 150px;
+        }
+        
+        /* Settings Modal */
+        .settings-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .settings-section h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .settings-option:last-child {
+            border-bottom: none;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        /* API Health Status */
+        .health-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .health-excellent {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .health-good {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        
+        .health-fair {
+            background: rgba(255, 158, 0, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(255, 158, 0, 0.3);
+        }
+        
+        .health-poor {
+            background: rgba(255, 0, 60, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+        }
+        
+        /* Test API Button */
+        .test-api {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #c0c0ff;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-api:hover:not(:disabled) {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .test-api:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* API Response Time */
+        .response-time {
+            font-size: 0.8rem;
+            color: #a0a0ff;
+            margin-top: 0.3rem;
+        }
+        
+        /* API Usage Chart */
+        .usage-chart {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+            height: 300px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #a0a0ff;
+            font-style: italic;
+        }
+        
+        /* API Card */
+        .api-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .api-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .api-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .api-card-name {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .api-card-endpoint {
+            font-family: 'Courier New', monospace;
+            color: var(--success);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .api-card-description {
+            color: #a0a0ff;
+            margin-bottom: 1rem;
+        }
+        
+        .api-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .api-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Key Generator Styles */
+        .keygen-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .keygen-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        
+        .keygen-output {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="hologram-grid"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <h1 class="main-title">Holographic API Interface</h1>
+        <p class="subtitle">Advanced network, security, and data endpoints with real-time monitoring and analytics</p>
+    </header>
+    
+    <!-- Search -->
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search APIs, endpoints, or categories...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+    
+    <!-- Filter Panel -->
+    <div class="container">
+        <div class="filter-panel">
+            <h3>Filters</h3>
+            <div class="filter-group">
+                <select class="filter-select" id="status-filter">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="limited">Limited</option>
+                    <option value="offline">Offline</option>
+                </select>
+                <select class="filter-select" id="pricing-filter">
+                    <option value="all">All Pricing</option>
+                    <option value="free">Free</option>
+                    <option value="paid">Paid</option>
+                </select>
+                <select class="filter-select" id="authentication-filter">
+                    <option value="all">All Authentication</option>
+                    <option value="api-key">API Key</option>
+                    <option value="oauth">OAuth</option>
+                    <option value="none">None</option>
+                </select>
+                <select class="filter-select" id="health-filter">
+                    <option value="all">All Health</option>
+                    <option value="excellent">Excellent</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                    <option value="poor">Poor</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="container">
+        <div class="quick-actions">
+            <div class="quick-action" id="scan-all">
+                <i class="fas fa-radar-dish"></i>
+                <span>Scan All APIs</span>
+            </div>
+            <div class="quick-action" id="test-connection">
+                <i class="fas fa-plug"></i>
+                <span>Test Connections</span>
+            </div>
+            <div class="quick-action" id="export-data">
+                <i class="fas fa-file-export"></i>
+                <span>Export Data</span>
+            </div>
+            <div class="quick-action" id="show-stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Show Statistics</span>
+            </div>
+            <div class="quick-action" id="settings-button">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+            <div class="quick-action" id="generate-keys">
+                <i class="fas fa-key"></i>
+                <span>Generate API Keys</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="container">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="total-apis">247</div>
+                <div class="stat-label">Total APIs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="active-apis">231</div>
+                <div class="stat-label">Active APIs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="response-time">142ms</div>
+                <div class="stat-label">Avg Response Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="success-rate">98.7%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Usage Chart -->
+    <div class="container">
+        <div class="usage-chart">
+            <div class="chart-placeholder">
+                API Usage Analytics Chart - Integration with Chart.js would go here
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="category-nav">
+        <div class="nav-item active" data-category="all">All APIs</div>
+        <div class="nav-item" data-category="network">Network Discovery</div>
+        <div class="nav-item" data-category="security">Security</div>
+        <div class="nav-item" data-category="government">Government Data</div>
+        <div class="nav-item" data-category="pentest">Penetration Testing</div>
+        <div class="nav-item" data-category="mobile">Mobile</div>
+        <div class="nav-item" data-category="common">Common APIs</div>
+        <div class="nav-item" data-category="telecom">Telecom</div>
+        <div class="nav-item" data-category="crypto">Cryptographic</div>
+        <div class="nav-item" data-category="datamining">Data Mining</div>
+        <div class="nav-item" data-category="illegal">Illegal Activities</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Terminal Example -->
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                </div>
+                <div class="terminal-title">API Terminal - Status: <span class="status-indicator status-active"><span class="status-dot"></span> Active</span></div>
+            </div>
+            <div class="terminal-content">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span>
+                    <span class="terminal-command">api status --all</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Scanning 247 active endpoints...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output"><span style="color: var(--success)">✓ 231</span> operational, <span style="color: var(--warning)">⚠ 12</span> limited, <span style="color: var(--danger)">✗ 4</span> offline</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span>
+                    <span class="terminal-command">connect --api shodan --key [encrypted]</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Establishing secure connection to Shodan API...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Network and NetworkDiscovery -->
+        <section class="category-section" data-category="network" style="animation-delay: 0.1s">
+            <h2 class="category-title"><i class="fas fa-network-wired"></i> Network and NetworkDiscovery</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>OpenWeatherMap</td>
+                        <td><code class="endpoint">api.openweathermap.org/data/2.5/weather</code></td>
+                        <td>Weather Data API for network conditions</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="openweather">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Shodan</td>
+                        <td><code class="endpoint">api.shodan.io/shodan/host/{ip}</code></td>
+                        <td>Query Shodan for network information</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="shodan">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Censys</td>
+                        <td><code class="endpoint">search.censys.io/api/v2/hosts</code></td>
+                        <td>Comprehensive network device discovery <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="censys">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>IPinfo.io</td>
+                        <td><code class="endpoint">ipinfo.io/{ip}</code></td>
+                        <td>IP address information (free & <span class="paid">paid</span> tiers)</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="ipinfo">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>GeoIP</td>
+                        <td><code class="endpoint">geoip.neustar/b2c-api/geoip/v2</code></td>
+                        <td>Geolocation data <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="geoip">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Wireshark</td>
+                        <td><code class="endpoint">wireshark.org/api</code></td>
+                        <td>Packet capture and analysis tools</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="wireshark">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Network Attacks -->
+        <section class="category-section" data-category="security" style="animation-delay: 0.2s">
+            <h2 class="category-title"><i class="fas fa-shield-alt"></i> Network Attacks</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nmap</td>
+                        <td><code class="endpoint">nmap.org/os/detection/</code></td>
+                        <td>Network vulnerability scanning</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="nmap">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Metasploit</td>
+                        <td><code class="endpoint">metasploit.com/api/v1/modules/exploi</code></td>
+                        <td>Explore and exploit network vulnerabilities</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="metasploit">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Rapid7 Nexpose</td>
+                        <td><code class="endpoint">nexpose-api.rapid7.com/nexpose/expand/</code></td>
+                        <td>Detailed network vulnerability management <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="nexpose">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Hikari</td>
+                        <td><code class="endpoint">hikari.io/api/v1/vulns</code></td>
+                        <td>Vulnerability database <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="hikari">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Qualys</td>
+                        <td><code class="endpoint">qualysguard.qg3.qualys.com/qps/rest</code></td>
+                        <td>Vulnerability management and compliance <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="qualys">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Nikto</td>
+                        <td><code class="endpoint">nikto.org/api/web_scan</code></td>
+                        <td>Web server scanner for vulnerabilities (free & <span class="paid">paid</span>)</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="nikto">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Government Search Databases -->
+        <section class="category-section" data-category="government" style="animation-delay: 0.3s">
+            <h2 class="category-title"><i class="fas fa-landmark"></i> Government Search Databases</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Federal Communications Commission (FCC)</td>
+                        <td><code class="endpoint">data.fcc.gov/api/license-view/standard</code></td>
+                        <td>Query FCC license databases</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="fcc">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>European Union Open Data Portal</td>
+                        <td><code class="endpoint">data.europa.eu/euodp/qt/wp</code></td>
+                        <td>Access EU public procurement data</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="eu">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>U.S. Government Public Data</td>
+                        <td><code class="endpoint">www.data.gov/api/services</code></td>
+                        <td>Access a wide range of public datasets <span class="paid">Paid for premium</span></td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="usgov">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Procurement Data Network (PDN)</td>
+                        <td><code class="endpoint">pdn.procurementdata.gov/api/</code></td>
+                        <td>U.S. federal procurement data <span class="paid">Paid for advanced</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="pdn">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Federal Acquisition Service (FAS)</td>
+                        <td><code class="endpoint">fas.gsa.gov/api </code></td>
+                        <td>FAS contract data access <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Offline</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="fas">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Canada Open Data</td>
+                        <td><code class="endpoint">open.data.gc.ca/common/query</code></td>
+                        <td>Canadian government data (various <span class="paid">paid</span> options)</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="canada">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Offensive Pentest Related -->
+        <section class="category-section" data-category="pentest" style="animation-delay: 0.4s">
+            <h2 class="category-title"><i class="fas fa-bug"></i> Offensive Pentest Related</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nessus</td>
+                        <td><code class="endpoint">nessus/api/v2/scans/{id}</code></td>
+                        <td>Access scan results</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="nessus">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Burp Suite Extender</td>
+                        <td><code class="endpoint">burpsuite.com/webapp/extensions/api</code></td>
+                        <td>Extend Burp Suite capabilities</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="burp">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Vulners</td>
+                        <td><code class="endpoint">api.vulners.com/search</code></td>
+                        <td>Vulnerability intelligence <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="vulners">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Exploit Database</td>
+                        <td><code class="endpoint">www.exploit-db.com/api/</code></td>
+                        <td>Access exploit information <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="exploitdb">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>CVE Details</td>
+                        <td><code class="endpoint">www.cvedetails.com/api</code></td>
+                        <td>CVE vulnerability database <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="cve">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Aqua Security</td>
+                        <td><code class="endpoint">aquasecurity-trivy/app</code></td>
+                        <td>Container and cloud-native security scanning <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="aqua">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Android & ADB Tasks -->
+        <section class="category-section" data-category="mobile" style="animation-delay: 0.5s">
+            <h2 class="category-title"><i class="fas fa-mobile-alt"></i> Android & ADB Tasks</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Android Device Bridge (ADB)</td>
+                        <td><code class="endpoint">adb shell command</code></td>
+                        <td>Execute commands on Android devices</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="adb">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Google Play API</td>
+                        <td><code class="endpoint">androidpublisher.googleapis.com/androidpublisher/v3/applications/{packageName}/reviews</code></td>
+                        <td>Fetch user reviews for Android apps</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="play">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Google Play Insights</td>
+                        <td><code class="endpoint">play.google.com/console/api/app</code></td>
+                        <td>Analytics and insights for Android apps <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="playinsights">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>App Annie</td>
+                        <td><code class="endpoint">api.appannie.com/v1</code></td>
+                        <td>App performance and market data <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="appannie">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>SensorTower</td>
+                        <td><code class="endpoint">api.sensortower.com/v1/apps</code></td>
+                        <td>App analytics and market monitoring <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="sensortower">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>AppMetrics</td>
+                        <td><code class="endpoint">appmetrics.io/api/v1</code></td>
+                        <td>Comprehensive app performance metrics <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="appmetrics">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Common & Most Used -->
+        <section class="category-section" data-category="common" style="animation-delay: 0.6s">
+            <h2 class="category-title"><i class="fas fa-star"></i> Common & Most Used</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GitHub</td>
+                        <td><code class="endpoint">api.github.com/repos/{user}/{repo}</code></td>
+                        <td>Query repositories</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="github">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Google Maps</td>
+                        <td><code class="endpoint">maps.googleapis.com/maps/api/geocode/json</code></td>
+                        <td>Geocode and reverse geocode</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="maps">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter</td>
+                        <td><code class="endpoint">api.twitter.com/2/tweets/search/recent</code></td>
+                        <td>Twitter search API <span class="paid">Paid for bulk access</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="twitter">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Amazon Product Advertising API</td>
+                        <td><code class="endpoint">webservices.amazon.com/onca/xml</code></td>
+                        <td>Access Amazon product data <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="amazon">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Stripe</td>
+                        <td><code class="endpoint">api.stripe.com/v1</code></td>
+                        <td>Payment processing <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="stripe">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Alibaba Cloud</td>
+                        <td><code class="endpoint">cs.aliyun.com/api/v2</code></td>
+                        <td>Cloud services and products <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="alibaba">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Deep Search and Data Mining -->
+        <section class="category-section" data-category="datamining" style="animation-delay: 0.7s">
+            <h2 class="category-title"><i class="fas fa-search-plus"></i> Deep Search and Data Mining</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Common Crawl</td>
+                        <td><code class="endpoint">data.commoncrawl.org</code></td>
+                        <td>Access to a repository of web crawl data</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="commoncrawl">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Google Custom Search API</td>
+                        <td><code class="endpoint">www.googleapis.com/customsearch/v1</code></td>
+                        <td>Perform searches tailored to specific requirements <span class="paid">Paid for large volumes</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="customsearch">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>DeepDive</td>
+                        <td><code class="endpoint">deepproj.org/api</code></td>
+                        <td>Extract structured data from web pages and documents</td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="deepdive">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Wolfram Alpha</td>
+                        <td><code class="endpoint">api.wolframalpha.com/v1/query</code></td>
+                        <td>Computational knowledge engine <span class="paid">Paid for API access</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="wolfram">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>BigQuery</td>
+                        <td><code class="endpoint">bigquery.googleapis.com/bigquery/v2</code></td>
+                        <td>Google's fast, highly scalable, and cost-effective multi-cloud data warehouse <span class="paid">Paid for storage and queries</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="bigquery">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Searx</td>
+                        <td><code class="endpoint">searx.me</code></td>
+                        <td>Privacy-respecting metasearch engine</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="searx">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Shellster</td>
+                        <td><code class="endpoint">shellster.org/api</code></td>
+                        <td>Shell command execution and manipulation</td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="shellster">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Maltego</td>
+                        <td><code class="endpoint">maltego.com/api</code></td>
+                        <td>Open-source intelligence and graph analysis</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="maltego">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Blackbird</td>
+                        <td><code class="endpoint">blackbird.ai/api</code></td>
+                        <td>AI-powered investigation and analysis</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="blackbird">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Universal API</td>
+                        <td><code class="endpoint">universal-api.com</code></td>
+                        <td>Unified API for accessing multiple web services</td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="universal">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>GreyNoise</td>
+                        <td><code class="endpoint">api.greynoise.io/v1</code></td>
+                        <td>IP and domain reputation intelligence</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="greynoise">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>RiskIQ</td>
+                        <td><code class="endpoint">watchlist.riskiq.com/api/v1</code></td>
+                        <td>Threat intelligence and risk assessment</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="riskiq">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Shodan</td>
+                        <td><code class="endpoint">api.shodan.io/shodan/host</code></td>
+                        <td>Network data and vulnerability discovery</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="shodan-datamining">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>AlienVault OTX</td>
+                        <td><code class="endpoint">otx.alienvault.com/api/v1</code></td>
+                        <td>Open threat exchange for sharing indicators and threat data</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="alienvault">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Telecommunications and SIP -->
+        <section class="category-section" data-category="telecom" style="animation-delay: 0.8s">
+            <h2 class="category-title"><i class="fas fa-phone-alt"></i> Telecommunications and SIP</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Twilio</td>
+                        <td><code class="endpoint">api.twilio.com/2010-04-01</code></td>
+                        <td>SMS, voice, and video communication <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-excellent">Excellent</span></td>
+                        <td><button class="test-api" data-api="twilio">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Nexmo (Vonage API)</td>
+                        <td><code class="endpoint">rest.nexmo.com/sms/json</code></td>
+                        <td>SMS and voice services <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="nexmo">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Plivo</td>
+                        <td><code class="endpoint">api.plivo.com/v1</code></td>
+                        <td>Voice and SMS APIs <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="plivo">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>SIP.js</td>
+                        <td><code class="endpoint">sipjs.gitbook.io/sipjs</code></td>
+                        <td>JavaScript library for WebRTC and SIP</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="sipjs">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Nextiva</td>
+                        <td><code class="endpoint">api.nexiva.com</code></td>
+                        <td>Business phone and communication services <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="nextiva">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Bandwidth</td>
+                        <td><code class="endpoint">dashboard.bandwidth.com/api</code></td>
+                        <td>Voice, messaging, and phone number APIs <span class="paid">Paid</span></td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="bandwidth">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Calls9</td>
+                        <td><code class="endpoint">api.calls9.com</code></td>
+                        <td>Cloud-based telephony services</td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="calls9">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Telnyx</td>
+                        <td><code class="endpoint">lage.telnyx.com</code></td>
+                        <td>Global communications as a service</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="telnyx">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Infobip</td>
+                        <td><code class="endpoint">api.infobip.com/sms/2/text/single</code></td>
+                        <td>Omnichannel communications</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="infobip">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Cryptographically Enforced Access -->
+        <section class="category-section" data-category="crypto" style="animation-delay: 0.9s">
+            <h2 class="category-title"><i class="fas fa-lock"></i> Cryptographically Enforced Access</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Enveal</td>
+                        <td><code class="endpoint">api.enveal.io</code></td>
+                        <td>Cryptographically enforced access control</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="enveal">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Blockstack</td>
+                        <td><code class="endpoint">blockstack.org/api</code></td>
+                        <td>Decentralized identity and data storage</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="blockstack">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>CryptoKitties</td>
+                        <td><code class="endpoint">api.cryptokitties.co</code></td>
+                        <td>Blockchain-based digital collectibles</td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="cryptokitties">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>IPFS</td>
+                        <td><code class="endpoint">ipfs.io/api</code></td>
+                        <td>Content-addressed, peer-to-peer hypermedia protocol</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="ipfs">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>OrbitDB</td>
+                        <td><code class="endpoint">orbitdb.org/api</code></td>
+                        <td>Peer-to-peer, decentralized database</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="orbitdb">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Gun</td>
+                        <td><code class="endpoint">gun.js.org/api</code></td>
+                        <td>Graph database for real-time applications</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="gun">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Keybase</td>
+                        <td><code class="endpoint">keybase.io/api</code></td>
+                        <td>End-to-end encrypted messaging and file sharing</td>
+                        <td><span class="status-indicator status-inactive"><span class="status-dot"></span> Limited</span></td>
+                        <td><span class="health-status health-fair">Fair</span></td>
+                        <td><button class="test-api" data-api="keybase">Test</button></td>
+                    </tr>
+                    <tr>
+                        <td>Filecoin</td>
+                        <td><code class="endpoint">api.filecoin.io</code></td>
+                        <td>Decentralized storage market</td>
+                        <td><span class="status-indicator status-active"><span class="status-dot"></span> Active</span></td>
+                        <td><span class="health-status health-good">Good</span></td>
+                        <td><button class="test-api" data-api="filecoin">Test</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Illegal Activities -->
+        <section class="category-section" data-category="illegal" style="animation-delay: 1.0s">
+            <h2 class="category-title"><i class="fas fa-exclamation-triangle"></i> <span style="color: var(--danger)">Illegal Activities</span></h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dark Web Marketplaces</td>
+                        <td><code class="endpoint">api.darkwebmarketplace.com</code></td>
+                        <td>Access illegal marketplaces <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="darkweb" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Credit Card Validator</td>
+                        <td><code class="endpoint">api.creditcardvalidator.com/check</code></td>
+                        <td>Validate stolen credit card details <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="ccvalidator" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Password Dump</td>
+                        <td><code class="endpoint">api.passworddump.com</code></td>
+                        <td>Access leaked and compromised passwords <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="passworddump" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Identity Theft</td>
+                        <td><code class="endpoint">api.identitytheft.com</code></td>
+                        <td>Access tools for identity theft <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="identitytheft" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Malware Distribution</td>
+                        <td><code class="endpoint">api.malwaredistribution.com</code></td>
+                        <td>Distribute and manage malware campaigns <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="malware" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Botnets</td>
+                        <td><code class="endpoint">api.botnetcommand.org</code></td>
+                        <td>Control botnet operations <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="botnet" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>DDOS-for-hire</td>
+                        <td><code class="endpoint">api.ddosattacks.com</code></td>
+                        <td>Launch distributed denial-of-service attacks <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="ddos" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Account Checkers</td>
+                        <td><code class="endpoint">api.accountchecker.com</code></td>
+                        <td>Check the validity of compromised accounts <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="accountchecker" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Hacked Emails and Passwords</td>
+                        <td><code class="endpoint">api.hackeddata.com</code></td>
+                        <td>Access databases of hacked emails and passwords <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="hackeddata" disabled>Blocked</button></td>
+                    </tr>
+                    <tr>
+                        <td>Fake Document Generators</td>
+                        <td><code class="endpoint">api.fakedocuments.com</code></td>
+                        <td>Generate fake IDs, passports, and other documents <span class="illegal">ILLEGAL</span></td>
+                        <td><span class="status-indicator status-warning"><span class="status-dot"></span> Blocked</span></td>
+                        <td><span class="health-status health-poor">Poor</span></td>
+                        <td><button class="test-api" data-api="fakedocuments" disabled>Blocked</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+    </div>
+    
+    <!-- Floating Action Button -->
+    <div class="fab" id="fab-scan">
+        <i class="fas fa-bolt"></i>
+    </div>
+    
+    <!-- API Details Modal -->
+    <div class="modal" id="api-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title" id="modal-api-name">API Details</h2>
+            <div id="modal-content">
+                <p>Loading API details...</p>
+            </div>
+            <div class="api-key-input">
+                <input type="text" id="api-key-input" placeholder="Enter API key...">
+                <button id="save-api-key">Save Key</button>
+                <button id="generate-api-key">Generate Key</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- API Key Generator Modal -->
+    <div class="modal" id="keygen-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="keygen-close">&times;</button>
+            <h2 class="modal-title">API Key Generator</h2>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="terminal-dot dot-red"></div>
+                        <div class="terminal-dot dot-yellow"></div>
+                        <div class="terminal-dot dot-green"></div>
+                    </div>
+                    <div class="terminal-title">Key Generation Terminal</div>
+                </div>
+                <div class="terminal-content" id="keygen-terminal">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">></span>
+                        <span class="terminal-command">Initializing API key generation system...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="quick-actions" style="margin-top: 1rem;">
+                <button class="quick-action" id="generate-all-keys">
+                    <i class="fas fa-key"></i>
+                    <span>Generate All Keys</span>
+                </button>
+                <button class="quick-action" id="export-keys">
+                    <i class="fas fa-download"></i>
+                    <span>Export Keys</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="settings-close">&times;</button>
+            <h2 class="modal-title">Settings</h2>
+            
+            <div class="settings-section">
+                <h3>Appearance</h3>
+                <div class="settings-option">
+                    <span>Dark Mode</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="dark-mode" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Holographic Effects</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="holographic-effects" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>API Monitoring</h3>
+                <div class="settings-option">
+                    <span>Auto Refresh</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-refresh" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Health Monitoring</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="health-monitoring" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Notifications</h3>
+                <div class="settings-option">
+                    <span>API Status Changes</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="status-notifications" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Health Alerts</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="health-alerts" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Data & Export</h3>
+                <div class="settings-option">
+                    <span>Default Export Format</span>
+                    <select class="filter-select" id="export-format">
+                        <option value="json">JSON</option>
+                        <option value="csv">CSV</option>
+                        <option value="html">HTML</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <button id="reset-settings" class="test-api" style="width: 100%; margin-top: 1rem;">Reset to Defaults</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>Holographic API Interface v2.1 | Secure Connection Established | Last Updated: <span id="current-date"></span></p>
+    </footer>
+    
+    <script>
+        // ===============================
+        // COMPLETE API DATABASE
+        // ===============================
+        const apiDatabase = {
+            // Network Discovery (6 entries)
+            'openweather': {
+                name: 'OpenWeatherMap',
+                endpoint: 'api.openweathermap.org/data/2.5/weather',
+                description: 'Weather Data API for network conditions',
+                category: 'network',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://openweathermap.org/api',
+                authentication: 'API Key',
+                rateLimit: '60 calls/minute',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'shodan': {
+                name: 'Shodan',
+                endpoint: 'api.shodan.io/shodan/host/{ip}',
+                description: 'Query Shodan for network information',
+                category: 'network',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://developer.shodan.io/',
+                authentication: 'API Key',
+                rateLimit: '1 call/second',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'censys': {
+                name: 'Censys',
+                endpoint: 'search.censys.io/api/v2/hosts',
+                description: 'Comprehensive network device discovery',
+                category: 'network',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://search.censys.io/api',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'ipinfo': {
+                name: 'IPinfo.io',
+                endpoint: 'ipinfo.io/{ip}',
+                description: 'IP address information',
+                category: 'network',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://ipinfo.io/developers',
+                authentication: 'API Key',
+                rateLimit: '50,000 requests/month (free)',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'geoip': {
+                name: 'GeoIP',
+                endpoint: 'geoip.neustar/b2c-api/geoip/v2',
+                description: 'Geolocation data',
+                category: 'network',
+                status: 'limited',
+                health: 'fair',
+                documentation: 'https://www.neustar.com/services/geoip',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'wireshark': {
+                name: 'Wireshark',
+                endpoint: 'wireshark.org/api',
+                description: 'Packet capture and analysis tools',
+                category: 'network',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://www.wireshark.org/docs/',
+                authentication: 'None',
+                rateLimit: 'None',
+                responseFormat: 'Various',
+                pricing: 'free'
+            },
+
+            // Network Attacks (6 entries)
+            'nmap': {
+                name: 'Nmap',
+                endpoint: 'nmap.org/os/detection/',
+                description: 'Network vulnerability scanning',
+                category: 'security',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://nmap.org/book/man.html',
+                authentication: 'None',
+                rateLimit: 'None',
+                responseFormat: 'XML/JSON',
+                pricing: 'free'
+            },
+            'metasploit': {
+                name: 'Metasploit',
+                endpoint: 'metasploit.com/api/v1/modules/exploi',
+                description: 'Explore and exploit network vulnerabilities',
+                category: 'security',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.metasploit.com/help',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'nexpose': {
+                name: 'Rapid7 Nexpose',
+                endpoint: 'nexpose-api.rapid7.com/nexpose/expand/',
+                description: 'Detailed network vulnerability management',
+                category: 'security',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://help.rapid7.com/nexpose/en-us/Content/Admin/API.htm',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'hikari': {
+                name: 'Hikari',
+                endpoint: 'hikari.io/api/v1/vulns',
+                description: 'Vulnerability database',
+                category: 'security',
+                status: 'limited',
+                health: 'fair',
+                documentation: 'https://hikari.io/docs',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'qualys': {
+                name: 'Qualys',
+                endpoint: 'qualysguard.qg3.qualys.com/qps/rest',
+                description: 'Vulnerability management and compliance',
+                category: 'security',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://www.qualys.com/docs/qualys-api-v2-user-guide.pdf',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'XML/JSON',
+                pricing: 'paid'
+            },
+            'nikto': {
+                name: 'Nikto',
+                endpoint: 'nikto.org/api/web_scan',
+                description: 'Web server scanner for vulnerabilities',
+                category: 'security',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://cirt.net/Nikto2',
+                authentication: 'None',
+                rateLimit: 'None',
+                responseFormat: 'TXT/XML/JSON',
+                pricing: 'free'
+            },
+
+            // Government Databases (6 entries)
+            'fcc': {
+                name: 'Federal Communications Commission',
+                endpoint: 'data.fcc.gov/api/license-view/standard',
+                description: 'Query FCC license databases',
+                category: 'government',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://www.fcc.gov/developers',
+                authentication: 'None',
+                rateLimit: '1000 requests/hour',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'eu': {
+                name: 'European Union Open Data Portal',
+                endpoint: 'data.europa.eu/euodp/qt/wp',
+                description: 'Access EU public procurement data',
+                category: 'government',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://data.europa.eu/en/developers',
+                authentication: 'None',
+                rateLimit: 'Unknown',
+                responseFormat: 'JSON/XML',
+                pricing: 'free'
+            },
+            'usgov': {
+                name: 'U.S. Government Public Data',
+                endpoint: 'www.data.gov/api/services',
+                description: 'Access a wide range of public datasets',
+                category: 'government',
+                status: 'limited',
+                health: 'fair',
+                documentation: 'https://www.data.gov/developers/apis',
+                authentication: 'API Key',
+                rateLimit: '1000 requests/hour',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'pdn': {
+                name: 'Procurement Data Network',
+                endpoint: 'pdn.procurementdata.gov/api/',
+                description: 'U.S. federal procurement data',
+                category: 'government',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://pdn.gov/developers',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'fas': {
+                name: 'Federal Acquisition Service',
+                endpoint: 'fas.gsa.gov/api',
+                description: 'FAS contract data access',
+                category: 'government',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'https://gsa.gov/developers',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'canada': {
+                name: 'Canada Open Data',
+                endpoint: 'open.data.gc.ca/common/query',
+                description: 'Canadian government data',
+                category: 'government',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://open.canada.ca/en/developers',
+                authentication: 'None',
+                rateLimit: 'Unknown',
+                responseFormat: 'JSON/XML',
+                pricing: 'freemium'
+            },
+
+            // Offensive Pentest (6 entries)
+            'nessus': {
+                name: 'Nessus',
+                endpoint: 'nessus/api/v2/scans/{id}',
+                description: 'Access scan results',
+                category: 'pentest',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://www.tenable.com/products/nessus',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'burp': {
+                name: 'Burp Suite Extender',
+                endpoint: 'burpsuite.com/webapp/extensions/api',
+                description: 'Extend Burp Suite capabilities',
+                category: 'pentest',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://portswigger.net/burp/extender',
+                authentication: 'None',
+                rateLimit: 'None',
+                responseFormat: 'Java',
+                pricing: 'paid'
+            },
+            'vulners': {
+                name: 'Vulners',
+                endpoint: 'api.vulners.com/search',
+                description: 'Vulnerability intelligence',
+                category: 'pentest',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://vulners.com/api',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'exploitdb': {
+                name: 'Exploit Database',
+                endpoint: 'www.exploit-db.com/api/',
+                description: 'Access exploit information',
+                category: 'pentest',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.exploit-db.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'cve': {
+                name: 'CVE Details',
+                endpoint: 'www.cvedetails.com/api',
+                description: 'CVE vulnerability database',
+                category: 'pentest',
+                status: 'limited',
+                health: 'fair',
+                documentation: 'https://www.cvedetails.com/api/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON/XML',
+                pricing: 'paid'
+            },
+            'aqua': {
+                name: 'Aqua Security',
+                endpoint: 'aquasecurity-trivy/app',
+                description: 'Container and cloud-native security scanning',
+                category: 'pentest',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://aquasecurity.github.io/trivy/',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+
+            // Android & ADB (6 entries)
+            'adb': {
+                name: 'Android Device Bridge',
+                endpoint: 'adb shell command',
+                description: 'Execute commands on Android devices',
+                category: 'mobile',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://developer.android.com/studio/command-line/adb',
+                authentication: 'None',
+                rateLimit: 'None',
+                responseFormat: 'Text',
+                pricing: 'free'
+            },
+            'play': {
+                name: 'Google Play API',
+                endpoint: 'androidpublisher.googleapis.com/androidpublisher/v3/applications/{packageName}/reviews',
+                description: 'Fetch user reviews for Android apps',
+                category: 'mobile',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.google.com/android-publisher',
+                authentication: 'OAuth',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'playinsights': {
+                name: 'Google Play Insights',
+                endpoint: 'play.google.com/console/api/app',
+                description: 'Analytics and insights for Android apps',
+                category: 'mobile',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.google.com/android-publisher/insights',
+                authentication: 'OAuth',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'appannie': {
+                name: 'App Annie',
+                endpoint: 'api.appannie.com/v1',
+                description: 'App performance and market data',
+                category: 'mobile',
+                status: 'limited',
+                health: 'fair',
+                documentation: 'https://www.data.ai/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'sensortower': {
+                name: 'SensorTower',
+                endpoint: 'api.sensortower.com/v1/apps',
+                description: 'App analytics and market monitoring',
+                category: 'mobile',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://sensortower.com/api',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'appmetrics': {
+                name: 'AppMetrics',
+                endpoint: 'appmetrics.io/api/v1',
+                description: 'Comprehensive app performance metrics',
+                category: 'mobile',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://appmetrics.io/docs',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+
+            // Common APIs (6 entries)
+            'github': {
+                name: 'GitHub',
+                endpoint: 'api.github.com/repos/{user}/{repo}',
+                description: 'Query repositories',
+                category: 'common',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://docs.github.com/en/rest',
+                authentication: 'OAuth Token',
+                rateLimit: '5000 calls/hour',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'maps': {
+                name: 'Google Maps',
+                endpoint: 'maps.googleapis.com/maps/api/geocode/json',
+                description: 'Geocode and reverse geocode',
+                category: 'common',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://developers.google.com/maps/documentation/geocoding/overview',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'twitter': {
+                name: 'Twitter',
+                endpoint: 'api.twitter.com/2/tweets/search/recent',
+                description: 'Twitter search API',
+                category: 'common',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developer.twitter.com/en/docs/twitter-api',
+                authentication: 'OAuth',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'amazon': {
+                name: 'Amazon Product Advertising API',
+                endpoint: 'webservices.amazon.com/onca/xml',
+                description: 'Access Amazon product data',
+                category: 'common',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://webservices.amazon.com/paapi5/documentation/',
+                authentication: 'API Key',
+                rateLimit: 'Varies by plan',
+                responseFormat: 'XML/JSON',
+                pricing: 'paid'
+            },
+            'stripe': {
+                name: 'Stripe',
+                endpoint: 'api.stripe.com/v1',
+                description: 'Payment processing',
+                category: 'common',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://stripe.com/docs/api',
+                authentication: 'API Key',
+                rateLimit: '100 requests/second',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'alibaba': {
+                name: 'Alibaba Cloud',
+                endpoint: 'cs.aliyun.com/api/v2',
+                description: 'Cloud services and products',
+                category: 'common',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.alibabacloud.com/help/en/product/25813.htm',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+
+            // Illegal Activities (10 entries)
+            'darkweb': {
+                name: 'Dark Web Marketplaces',
+                endpoint: 'api.darkwebmarketplace.com',
+                description: 'Access illegal marketplaces',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'ccvalidator': {
+                name: 'Credit Card Validator',
+                endpoint: 'api.creditcardvalidator.com/check',
+                description: 'Validate stolen credit card details',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'passworddump': {
+                name: 'Password Dump',
+                endpoint: 'api.passworddump.com',
+                description: 'Access leaked and compromised passwords',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'identitytheft': {
+                name: 'Identity Theft',
+                endpoint: 'api.identitytheft.com',
+                description: 'Access tools for identity theft',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'malware': {
+                name: 'Malware Distribution',
+                endpoint: 'api.malwaredistribution.com',
+                description: 'Distribute and manage malware campaigns',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'botnet': {
+                name: 'Botnets',
+                endpoint: 'api.botnetcommand.org',
+                description: 'Control botnet operations',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'ddos': {
+                name: 'DDOS-for-hire',
+                endpoint: 'api.ddosattacks.com',
+                description: 'Launch distributed denial-of-service attacks',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'accountchecker': {
+                name: 'Account Checkers',
+                endpoint: 'api.accountchecker.com',
+                description: 'Check the validity of compromised accounts',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'hackeddata': {
+                name: 'Hacked Emails and Passwords',
+                endpoint: 'api.hackeddata.com',
+                description: 'Access databases of hacked emails and passwords',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+            'fakedocuments': {
+                name: 'Fake Document Generators',
+                endpoint: 'api.fakedocuments.com',
+                description: 'Generate fake IDs, passports, and other documents',
+                category: 'illegal',
+                status: 'offline',
+                health: 'poor',
+                documentation: 'N/A',
+                authentication: 'API Key',
+                rateLimit: 'Unknown',
+                responseFormat: 'Unknown',
+                pricing: 'illegal',
+                illegal: true
+            },
+
+            // Deep Search and Data Mining (14 entries)
+            'commoncrawl': {
+                name: 'Common Crawl',
+                endpoint: 'data.commoncrawl.org',
+                description: 'Access to a repository of web crawl data',
+                category: 'datamining',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://commoncrawl.org/the-data',
+                authentication: 'None',
+                rateLimit: 'None',
+                responseFormat: 'WARC',
+                pricing: 'free'
+            },
+            'customsearch': {
+                name: 'Google Custom Search API',
+                endpoint: 'www.googleapis.com/customsearch/v1',
+                description: 'Perform searches tailored to specific requirements',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.google.com/custom-search/v1/overview',
+                authentication: 'API Key',
+                rateLimit: '100 queries/day (free)',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'deepdive': {
+                name: 'DeepDive',
+                endpoint: 'deepproj.org/api',
+                description: 'Extract structured data from web pages and documents',
+                category: 'datamining',
+                status: 'limited',
+                health: 'fair',
+                documentation: 'http://deepdive.stanford.edu/',
+                authentication: 'None',
+                rateLimit: 'Unknown',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'wolfram': {
+                name: 'Wolfram Alpha',
+                endpoint: 'api.wolframalpha.com/v2/query',
+                description: 'Computational knowledge engine',
+                category: 'datamining',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://products.wolframalpha.com/api/',
+                authentication: 'API Key',
+                rateLimit: '2000 calls/month (free)',
+                responseFormat: 'XML/JSON',
+                pricing: 'freemium'
+            },
+            'importio': {
+                name: 'Import.io',
+                endpoint: 'api.import.io',
+                description: 'Extract data from websites without coding',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.import.io/developer/docs/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'diffbot': {
+                name: 'Diffbot',
+                endpoint: 'api.diffbot.com/v3',
+                description: 'Extract and understand web pages automatically',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.diffbot.com/dev/docs/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'scrapinghub': {
+                name: 'Scrapinghub',
+                endpoint: 'app.scrapinghub.com/api',
+                description: 'Cloud-based web scraping platform',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://docs.scrapinghub.com/api/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'octoparse': {
+                name: 'Octoparse',
+                endpoint: 'openapi.octoparse.com',
+                description: 'Web scraping and data extraction',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.octoparse.com/blog/openapi',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'parsehub': {
+                name: 'ParseHub',
+                endpoint: 'www.parsehub.com/api/v2',
+                description: 'Extract data from dynamic websites',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.parsehub.com/docs/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'scraperapi': {
+                name: 'ScraperAPI',
+                endpoint: 'api.scraperapi.com',
+                description: 'API for web scraping',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.scraperapi.com/documentation/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'HTML/JSON',
+                pricing: 'paid'
+            },
+            'scrapestack': {
+                name: 'ScrapeStack',
+                endpoint: 'api.scrapestack.com',
+                description: 'Real-time web scraping API',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://scrapestack.com/documentation',
+                authentication: 'API Key',
+                rateLimit: '10,000 requests/month (free)',
+                responseFormat: 'HTML/JSON',
+                pricing: 'freemium'
+            },
+            'serpstack': {
+                name: 'SERPStack',
+                endpoint: 'api.serpstack.com/search',
+                description: 'Real-time search engine results',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://serpstack.com/documentation',
+                authentication: 'API Key',
+                rateLimit: '100 requests/month (free)',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'zenrows': {
+                name: 'ZenRows',
+                endpoint: 'api.zenrows.com/v1',
+                description: 'Web scraping API with anti-bot bypass',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.zenrows.com/documentation',
+                authentication: 'API Key',
+                rateLimit: '1000 requests/month (free)',
+                responseFormat: 'HTML/JSON',
+                pricing: 'freemium'
+            },
+            'scrapingbee': {
+                name: 'ScrapingBee',
+                endpoint: 'app.scrapingbee.com/api/v1',
+                description: 'Web scraping API with headless browsers',
+                category: 'datamining',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.scrapingbee.com/documentation/',
+                authentication: 'API Key',
+                rateLimit: '1000 requests/month (free)',
+                responseFormat: 'HTML/JSON',
+                pricing: 'freemium'
+            },
+
+            // Cryptographic APIs (10 entries)
+            'cryptocompare': {
+                name: 'CryptoCompare',
+                endpoint: 'min-api.cryptocompare.com/data/price',
+                description: 'Cryptocurrency price data',
+                category: 'crypto',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://min-api.cryptocompare.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'coinmarketcap': {
+                name: 'CoinMarketCap',
+                endpoint: 'pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+                description: 'Cryptocurrency market data',
+                category: 'crypto',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://coinmarketcap.com/api/documentation/v1/',
+                authentication: 'API Key',
+                rateLimit: '333 calls/day (free)',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'coingecko': {
+                name: 'CoinGecko',
+                endpoint: 'api.coingecko.com/api/v3/simple/price',
+                description: 'Cryptocurrency price and market data',
+                category: 'crypto',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://www.coingecko.com/en/api/documentation',
+                authentication: 'None',
+                rateLimit: '50 calls/minute',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'binance': {
+                name: 'Binance',
+                endpoint: 'api.binance.com/api/v3/ticker/price',
+                description: 'Cryptocurrency exchange data',
+                category: 'crypto',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://binance-docs.github.io/apidocs/spot/en/',
+                authentication: 'API Key',
+                rateLimit: '1200 requests/minute',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'coinbase': {
+                name: 'Coinbase',
+                endpoint: 'api.coinbase.com/v2/prices/{crypto}-USD/spot',
+                description: 'Cryptocurrency exchange and wallet services',
+                category: 'crypto',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://developers.coinbase.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'blockchain': {
+                name: 'Blockchain.com',
+                endpoint: 'api.blockchain.com/v3/exchange/tickers/{symbol}',
+                description: 'Blockchain data and exchange services',
+                category: 'crypto',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://api.blockchain.com/v3/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'bitfinex': {
+                name: 'Bitfinex',
+                endpoint: 'api-pub.bitfinex.com/v2/ticker/{symbol}',
+                description: 'Cryptocurrency trading platform',
+                category: 'crypto',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://docs.bitfinex.com/docs',
+                authentication: 'API Key',
+                rateLimit: '90 requests/minute',
+                responseFormat: 'JSON',
+                pricing: 'free'
+            },
+            'kraken': {
+                name: 'Kraken',
+                endpoint: 'api.kraken.com/0/public/Ticker',
+                description: 'Cryptocurrency exchange',
+                category: 'crypto',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://docs.kraken.com/rest/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'cryptowatch': {
+                name: 'Cryptowatch',
+                endpoint: 'api.cryptowat.ch/markets/{exchange}/{pair}',
+                description: 'Cryptocurrency market data',
+                category: 'crypto',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://docs.cryptowat.ch/rest-api/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+            'nomics': {
+                name: 'Nomics',
+                endpoint: 'api.nomics.com/v1/currencies/ticker',
+                description: 'Cryptocurrency market data and research',
+                category: 'crypto',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://nomics.com/docs/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'freemium'
+            },
+
+            // Telecom APIs (10 entries)
+            'twilio': {
+                name: 'Twilio',
+                endpoint: 'api.twilio.com/2010-04-01/Accounts/{AccountSid}/Messages.json',
+                description: 'Send SMS and MMS messages',
+                category: 'telecom',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://www.twilio.com/docs/usage/api',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'nexmo': {
+                name: 'Vonage (Nexmo)',
+                endpoint: 'rest.nexmo.com/sms/json',
+                description: 'SMS API for global messaging',
+                category: 'telecom',
+                status: 'active',
+                health: 'excellent',
+                documentation: 'https://developer.vonage.com/api/sms',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'plivo': {
+                name: 'Plivo',
+                endpoint: 'api.plivo.com/v1/Account/{auth_id}/Message/',
+                description: 'Voice and SMS communication platform',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.plivo.com/docs/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'bandwidth': {
+                name: 'Bandwidth',
+                endpoint: 'api.bandwidth.com/api/v2',
+                description: 'Voice, messaging, and 911 access',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://dev.bandwidth.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'telnyx': {
+                name: 'Telnyx',
+                endpoint: 'api.telnyx.com/v2',
+                description: 'Voice, SMS, and fax services',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.telnyx.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'messagebird': {
+                name: 'MessageBird',
+                endpoint: 'rest.messagebird.com/messages',
+                description: 'Omnichannel communication platform',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.messagebird.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'sinch': {
+                name: 'Sinch',
+                endpoint: 'sms.api.sinch.com/xms/v1/{service_plan_id}/batches',
+                description: 'Global SMS and voice services',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.sinch.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'infobip': {
+                name: 'Infobip',
+                endpoint: 'api.infobip.com/sms/1/text/single',
+                description: 'Omnichannel communication platform',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://www.infobip.com/docs/api',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'kaleyra': {
+                name: 'Kaleyra',
+                endpoint: 'api.kaleyra.io/v1/{SID}/messages',
+                description: 'Communication APIs for SMS, voice, and more',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.kaleyra.io/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            },
+            'africastalking': {
+                name: 'Africa\'s Talking',
+                endpoint: 'api.africastalking.com/version1/messaging',
+                description: 'SMS and voice APIs for Africa',
+                category: 'telecom',
+                status: 'active',
+                health: 'good',
+                documentation: 'https://developers.africastalking.com/',
+                authentication: 'API Key',
+                rateLimit: 'Custom plans',
+                responseFormat: 'JSON',
+                pricing: 'paid'
+            }
+        };
+
+        // ===============================
+        // API KEY GENERATOR
+        // ===============================
+        const apiKeyGenerator = {
+            // Generate a unique API key
+            generateUUID: function() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0;
+                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            },
+
+            // Generate API keys for all endpoints
+            generateAllKeys: function() {
+                const keys = {};
+                for (const apiId in apiDatabase) {
+                    keys[apiId] = this.generateUUID();
+                }
+                return keys;
+            },
+
+            // Generate keys for specific endpoints
+            generateKeysForEndpoints: function(endpoints) {
+                const keys = {};
+                endpoints.forEach(endpoint => {
+                    keys[endpoint] = this.generateUUID();
+                });
+                return keys;
+            },
+
+            // Format keys for display
+            formatKeys: function(keys) {
+                let output = '';
+                for (const apiId in keys) {
+                    const api = apiDatabase[apiId];
+                    output += `[${api.name}]\n`;
+                    output += `API Key: ${keys[apiId]}\n`;
+                    output += `Endpoint: ${api.endpoint}\n`;
+                    output += '----------------------------------------\n';
+                }
+                return output;
+            }
+        };
+
+        // ===============================
+        // CORE FUNCTIONALITY
+        // ===============================
+
+        // Set current date in footer
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
+        
+        // Navigation functionality
+        const navItems = document.querySelectorAll('.nav-item');
+        const categorySections = document.querySelectorAll('.category-section');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                navItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show/hide sections based on category
+                categorySections.forEach(section => {
+                    if (category === 'all' || section.getAttribute('data-category') === category) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+                
+                // Update URL hash
+                window.location.hash = category;
+            });
+        });
+        
+        // Check URL hash on load
+        window.addEventListener('load', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const navItem = document.querySelector(`.nav-item[data-category="${hash}"]`);
+                if (navItem) {
+                    navItem.click();
+                }
+            }
+        });
+        
+        // Search functionality
+        const searchBar = document.querySelector('.search-bar');
+        searchBar.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            applyAdvancedFilters(searchTerm);
+        });
+        
+        // Filter functionality
+        const statusFilter = document.getElementById('status-filter');
+        const pricingFilter = document.getElementById('pricing-filter');
+        const authFilter = document.getElementById('authentication-filter');
+        const healthFilter = document.getElementById('health-filter');
+        
+        [statusFilter, pricingFilter, authFilter, healthFilter].forEach(filter => {
+            filter.addEventListener('change', () => {
+                applyAdvancedFilters(searchBar.value.toLowerCase());
+            });
+        });
+        
+        function applyAdvancedFilters(searchTerm = '') {
+            const activeCategory = document.querySelector('.nav-item.active').getAttribute('data-category');
+            const statusValue = statusFilter.value;
+            const pricingValue = pricingFilter.value;
+            const authValue = authFilter.value;
+            const healthValue = healthFilter.value;
+            
+            const tables = document.querySelectorAll('.api-table tbody');
+            
+            tables.forEach(table => {
+                const section = table.closest('.category-section');
+                const rows = table.querySelectorAll('tr');
+                let hasVisibleRows = false;
+                
+                // Skip sections that are hidden by category filter
+                if (activeCategory !== 'all' && section.getAttribute('data-category') !== activeCategory) {
+                    return;
+                }
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    const apiKey = row.querySelector('.test-api')?.getAttribute('data-api');
+                    const api = apiDatabase[apiKey];
+                    
+                    if (!api) return;
+                    
+                    const matchesSearch = text.includes(searchTerm);
+                    const matchesStatus = statusValue === 'all' || api.status === statusValue;
+                    const matchesPricing = pricingValue === 'all' || 
+                                          (pricingValue === 'free' && (api.pricing === 'free' || api.pricing === 'freemium')) ||
+                                          (pricingValue === 'paid' && api.pricing === 'paid');
+                    const matchesAuth = authValue === 'all' || 
+                                       (authValue === 'api-key' && api.authentication.includes('API Key')) ||
+                                       (authValue === 'oauth' && api.authentication.includes('OAuth')) ||
+                                       (authValue === 'none' && api.authentication === 'None');
+                    const matchesHealth = healthValue === 'all' || api.health === healthValue;
+                    
+                    if (matchesSearch && matchesStatus && matchesPricing && matchesAuth && matchesHealth) {
+                        row.style.display = '';
+                        hasVisibleRows = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide table section based on visibility
+                if (hasVisibleRows || searchTerm === '') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Add animation to table rows on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all category sections
+        document.querySelectorAll('.category-section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // ===============================
+        // API KEY MANAGEMENT SYSTEM
+        // ===============================
+        const apiKeyManager = {
+            storageKey: 'holographic_api_keys',
+            
+            saveKey(apiName, key) {
+                const keys = this.getAllKeys();
+                keys[apiName] = key;
+                localStorage.setItem(this.storageKey, JSON.stringify(keys));
+                showToast(`API key saved for ${apiDatabase[apiName].name}`, 'success');
+            },
+            
+            getKey(apiName) {
+                const keys = this.getAllKeys();
+                return keys[apiName] || null;
+            },
+            
+            getAllKeys() {
+                return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+            },
+            
+            deleteKey(apiName) {
+                const keys = this.getAllKeys();
+                delete keys[apiName];
+                localStorage.setItem(this.storageKey, JSON.stringify(keys));
+                showToast(`API key removed for ${apiDatabase[apiName].name}`, 'success');
+            },
+            
+            validateKey(apiName, key) {
+                const validationRules = {
+                    'openweather': /^[a-f0-9]{32}$/,
+                    'shodan': /^[A-Za-z0-9]{32}$/,
+                    'github': /^ghp_[A-Za-z0-9]{36}$/,
+                    'maps': /^AIza[0-9A-Za-z-_]{35}$/,
+                    'twitter': /^[0-9]{19}-[a-zA-Z0-9]{20}$/
+                };
+                
+                const rule = validationRules[apiName];
+                return rule ? rule.test(key) : key.length > 5; // Basic validation
+            }
+        };
+
+        // ===============================
+        // API TESTING FUNCTIONALITY
+        // ===============================
+        const testButtons = document.querySelectorAll('.test-api');
+        testButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const api = this.getAttribute('data-api');
+                testAPI(api, this);
+            });
+        });
+        
+        async function testAPI(api, button) {
+            if (apiDatabase[api]?.illegal) {
+                showToast('This API is blocked for security reasons', 'error');
+                return;
+            }
+            
+            const originalText = button.textContent;
+            button.innerHTML = '<div class="loading"></div>';
+            button.disabled = true;
+            
+            try {
+                const apiInfo = apiDatabase[api];
+                const startTime = Date.now();
+                
+                // Simulate API call with realistic response times
+                const responseTime = simulateAPICall(apiInfo);
+                
+                // Update analytics
+                analyticsEngine.trackApiUsage(api, true, responseTime);
+                
+                button.innerHTML = `<i class="fas fa-check"></i> ${responseTime}ms`;
+                button.style.background = 'var(--success)';
+                showToast(`${apiInfo.name} test successful! Response: ${responseTime}ms`, 'success');
+                
+                // Update health status based on response time
+                updateAPIHealth(api, responseTime);
+                
+            } catch (error) {
+                button.innerHTML = '<i class="fas fa-times"></i> Failed';
+                button.style.background = 'var(--danger)';
+                analyticsEngine.trackApiUsage(api, false, 0);
+                showToast(`API test failed: ${error.message}`, 'error');
+            } finally {
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '';
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+        
+        function simulateAPICall(apiInfo) {
+            // Simulate different response times based on API health
+            const baseTime = {
+                'excellent': 50,
+                'good': 150,
+                'fair': 500,
+                'poor': 1500
+            }[apiInfo.health] || 200;
+            
+            // Add some randomness
+            return Math.floor(baseTime + (Math.random() * 100));
+        }
+        
+        function updateAPIHealth(api, responseTime) {
+            let newHealth = 'good';
+            
+            if (responseTime < 100) newHealth = 'excellent';
+            else if (responseTime < 300) newHealth = 'good';
+            else if (responseTime < 1000) newHealth = 'fair';
+            else newHealth = 'poor';
+            
+            // Update the database
+            if (apiDatabase[api]) {
+                apiDatabase[api].health = newHealth;
+            }
+            
+            // Update UI if element exists
+            const healthElement = document.querySelector(`[data-api="${api}"] .health-status`);
+            if (healthElement) {
+                healthElement.className = `health-status health-${newHealth}`;
+                healthElement.textContent = newHealth.charAt(0).toUpperCase() + newHealth.slice(1);
+            }
+        }
+        
+        // ===============================
+        // ANALYTICS ENGINE
+        // ===============================
+        const analyticsEngine = {
+            storageKey: 'holographic_analytics',
+            apiStats: {},
+            
+            init() {
+                this.loadStats();
+                this.startPeriodicUpdates();
+            },
+            
+            loadStats() {
+                const saved = localStorage.getItem(this.storageKey);
+                if (saved) {
+                    this.apiStats = JSON.parse(saved);
+                }
+            },
+            
+            saveStats() {
+                localStorage.setItem(this.storageKey, JSON.stringify(this.apiStats));
+            },
+            
+            trackApiUsage(apiName, success, responseTime) {
+                if (!this.apiStats[apiName]) {
+                    this.apiStats[apiName] = {
+                        calls: 0,
+                        successes: 0,
+                        failures: 0,
+                        totalResponseTime: 0,
+                        lastCalled: null,
+                        healthScore: 100
+                    };
+                }
+                
+                const stats = this.apiStats[apiName];
+                stats.calls++;
+                stats.lastCalled = new Date().toISOString();
+                
+                if (success) {
+                    stats.successes++;
+                    stats.totalResponseTime += responseTime;
+                    
+                    // Update health score (0-100)
+                    const successRate = (stats.successes / stats.calls) * 100;
+                    const avgResponseTime = stats.totalResponseTime / stats.successes;
+                    const responseScore = Math.max(0, 100 - (avgResponseTime / 10));
+                    
+                    stats.healthScore = Math.round((successRate + responseScore) / 2);
+                } else {
+                    stats.failures++;
+                    stats.healthScore = Math.max(0, stats.healthScore - 10);
+                }
+                
+                this.saveStats();
+                this.updateDashboard();
+            },
+            
+            getApiSuccessRate(apiName) {
+                const stats = this.apiStats[apiName];
+                return stats ? (stats.successes / stats.calls * 100).toFixed(1) : 0;
+            },
+            
+            getAverageResponseTime(apiName) {
+                const stats = this.apiStats[apiName];
+                return stats && stats.successes > 0 ? 
+                       Math.round(stats.totalResponseTime / stats.successes) : 0;
+            },
+            
+            getOverallStats() {
+                const apis = Object.keys(this.apiStats);
+                const totalCalls = apis.reduce((sum, api) => sum + this.apiStats[api].calls, 0);
+                const totalSuccesses = apis.reduce((sum, api) => sum + this.apiStats[api].successes, 0);
+                const totalResponseTime = apis.reduce((sum, api) => sum + this.apiStats[api].totalResponseTime, 0);
+                
+                return {
+                    totalCalls,
+                    successRate: totalCalls > 0 ? (totalSuccesses / totalCalls * 100).toFixed(1) : 0,
+                    avgResponseTime: totalSuccesses > 0 ? Math.round(totalResponseTime / totalSuccesses) : 0
+                };
+            },
+            
+            updateDashboard() {
+                const stats = this.getOverallStats();
+                
+                document.getElementById('total-apis').textContent = Object.keys(apiDatabase).length;
+                document.getElementById('active-apis').textContent = Object.values(apiDatabase).filter(api => api.status === 'active').length;
+                document.getElementById('response-time').textContent = `${stats.avgResponseTime}ms`;
+                document.getElementById('success-rate').textContent = `${stats.successRate}%`;
+            },
+            
+            startPeriodicUpdates() {
+                setInterval(() => {
+                    this.updateDashboard();
+                }, 5000);
+            },
+            
+            generateReport() {
+                return {
+                    timestamp: new Date().toISOString(),
+                    ...this.getOverallStats(),
+                    apis: this.apiStats
+                };
+            }
+        };
+
+        // Initialize analytics
+        analyticsEngine.init();
+        
+        // ===============================
+        // EXPORT FUNCTIONALITY
+        // ===============================
+        function exportData(format = 'json') {
+            const exportData = {
+                timestamp: new Date().toISOString(),
+                totalApis: Object.keys(apiDatabase).length,
+                analytics: analyticsEngine.generateReport(),
+                apis: apiDatabase
+            };
+
+            let content, mimeType, filename;
+
+            switch (format) {
+                case 'json':
+                    content = JSON.stringify(exportData, null, 2);
+                    mimeType = 'application/json';
+                    filename = `api-database-${Date.now()}.json`;
+                    break;
+                case 'csv':
+                    content = convertToCSV(exportData);
+                    mimeType = 'text/csv';
+                    filename = `api-database-${Date.now()}.csv`;
+                    break;
+                case 'html':
+                    content = generateHTMLReport(exportData);
+                    mimeType = 'text/html';
+                    filename = `api-database-${Date.now()}.html`;
+                    break;
+            }
+
+            downloadFile(content, mimeType, filename);
+            showToast(`Data exported as ${format.toUpperCase()}`, 'success');
+        }
+
+        function convertToCSV(data) {
+            const headers = ['Name', 'Endpoint', 'Category', 'Status', 'Health', 'Authentication', 'Rate Limit', 'Pricing'];
+            let csv = headers.join(',') + '\n';
+            
+            Object.values(data.apis).forEach(api => {
+                const row = [
+                    `"${api.name}"`,
+                    `"${api.endpoint}"`,
+                    `"${api.category}"`,
+                    `"${api.status}"`,
+                    `"${api.health}"`,
+                    `"${api.authentication}"`,
+                    `"${api.rateLimit}"`,
+                    `"${api.pricing}"`
+                ];
+                csv += row.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+        
+        function generateHTMLReport(data) {
+            return `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>API Database Export</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    table { border-collapse: collapse; width: 100%; }
+                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    th { background-color: #f2f2f2; }
+                    .excellent { background-color: #d4edda; }
+                    .good { background-color: #d1ecf1; }
+                    .fair { background-color: #fff3cd; }
+                    .poor { background-color: #f8d7da; }
+                </style>
+            </head>
+            <body>
+                <h1>API Database Export</h1>
+                <p>Generated: ${new Date().toLocaleString()}</p>
+                <p>Total APIs: ${data.totalApis}</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Endpoint</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Health</th>
+                            <th>Authentication</th>
+                            <th>Pricing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${Object.values(data.apis).map(api => `
+                            <tr class="${api.health}">
+                                <td>${api.name}</td>
+                                <td>${api.endpoint}</td>
+                                <td>${api.category}</td>
+                                <td>${api.status}</td>
+                                <td>${api.health}</td>
+                                <td>${api.authentication}</td>
+                                <td>${api.pricing}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </body>
+            </html>`;
+        }
+        
+        function downloadFile(content, mimeType, filename) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ===============================
+        // SETTINGS MANAGEMENT
+        // ===============================
+        const settingsManager = {
+            storageKey: 'holographic_settings',
+            defaultSettings: {
+                theme: 'dark',
+                autoRefresh: true,
+                refreshInterval: 30000,
+                healthMonitoring: true,
+                statusNotifications: true,
+                healthAlerts: true,
+                holographicEffects: true,
+                defaultExportFormat: 'json'
+            },
+            
+            getSettings() {
+                const saved = localStorage.getItem(this.storageKey);
+                return saved ? {...this.defaultSettings, ...JSON.parse(saved)} : this.defaultSettings;
+            },
+            
+            saveSettings(settings) {
+                localStorage.setItem(this.storageKey, JSON.stringify(settings));
+                this.applySettings(settings);
+                showToast('Settings saved successfully', 'success');
+            },
+            
+            applySettings(settings) {
+                // Apply theme
+                if (settings.theme === 'light') {
+                    document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+                } else {
+                    document.body.style.filter = 'none';
+                }
+                
+                // Apply holographic effects
+                const hologramGrid = document.querySelector('.hologram-grid');
+                const floatingShapes = document.querySelector('.floating-shapes');
+                
+                if (settings.holographicEffects) {
+                    hologramGrid.style.display = 'block';
+                    floatingShapes.style.display = 'block';
+                } else {
+                    hologramGrid.style.display = 'none';
+                    floatingShapes.style.display = 'none';
+                }
+                
+                // Update UI elements based on settings
+                document.getElementById('dark-mode').checked = settings.theme === 'dark';
+                document.getElementById('auto-refresh').checked = settings.autoRefresh;
+                document.getElementById('health-monitoring').checked = settings.healthMonitoring;
+                document.getElementById('status-notifications').checked = settings.statusNotifications;
+                document.getElementById('health-alerts').checked = settings.healthAlerts;
+                document.getElementById('holographic-effects').checked = settings.holographicEffects;
+                document.getElementById('export-format').value = settings.defaultExportFormat;
+            },
+            
+            resetSettings() {
+                localStorage.removeItem(this.storageKey);
+                this.applySettings(this.defaultSettings);
+                showToast('Settings reset to defaults', 'success');
+            }
+        };
+
+        // Initialize settings
+        const currentSettings = settingsManager.getSettings();
+        settingsManager.applySettings(currentSettings);
+        
+        // ===============================
+        // MODAL FUNCTIONALITY
+        // ===============================
+        const apiModal = document.getElementById('api-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalApiName = document.getElementById('modal-api-name');
+        const modalContent = document.getElementById('modal-content');
+        const apiKeyInput = document.getElementById('api-key-input');
+        const saveApiKeyButton = document.getElementById('save-api-key');
+        const generateApiKeyButton = document.getElementById('generate-api-key');
+        
+        const keygenModal = document.getElementById('keygen-modal');
+        const keygenClose = document.getElementById('keygen-close');
+        const keygenTerminal = document.getElementById('keygen-terminal');
+        const generateAllKeysButton = document.getElementById('generate-all-keys');
+        const exportKeysButton = document.getElementById('export-keys');
+        
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsClose = document.getElementById('settings-close');
+        const settingsButton = document.getElementById('settings-button');
+        const resetSettingsButton = document.getElementById('reset-settings');
+        
+        // Close modals when clicking X
+        modalClose.addEventListener('click', () => {
+            apiModal.style.display = 'none';
+        });
+        
+        keygenClose.addEventListener('click', () => {
+            keygenModal.style.display = 'none';
+        });
+        
+        settingsClose.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === apiModal) {
+                apiModal.style.display = 'none';
+            }
+            if (e.target === keygenModal) {
+                keygenModal.style.display = 'none';
+            }
+            if (e.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+        });
+        
+        // Show API details when clicking on API name
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.matches('.api-table td:first-child')) {
+                const row = e.target.closest('tr');
+                const apiKey = row.querySelector('.test-api').getAttribute('data-api');
+                showAPIDetails(apiKey);
+            }
+        });
+        
+        function showAPIDetails(apiKey) {
+            const api = apiDatabase[apiKey];
+            if (!api) {
+                modalContent.innerHTML = '<p>API details not found in database.</p>';
+                return;
+            }
+            
+            modalApiName.textContent = api.name;
+            modalContent.innerHTML = `
+                <p><strong>Endpoint:</strong> <code>${api.endpoint}</code></p>
+                <p><strong>Description:</strong> ${api.description}</p>
+                <p><strong>Category:</strong> ${api.category}</p>
+                <p><strong>Status:</strong> ${api.status}</p>
+                <p><strong>Health:</strong> ${api.health}</p>
+                <p><strong>Documentation:</strong> <a href="${api.documentation}" target="_blank">${api.documentation}</a></p>
+                <p><strong>Authentication:</strong> ${api.authentication}</p>
+                <p><strong>Rate Limit:</strong> ${api.rateLimit}</p>
+                <p><strong>Response Format:</strong> ${api.responseFormat}</p>
+                <p><strong>Pricing:</strong> ${api.pricing}</p>
+                ${api.illegal ? '<p><strong style="color: var(--danger)">WARNING: This API is for illegal activities</strong></p>' : ''}
+            `;
+            
+            // Load saved API key if exists
+            const savedKey = apiKeyManager.getKey(apiKey);
+            apiKeyInput.value = savedKey || '';
+            apiKeyInput.placeholder = savedKey ? 'Key saved (enter new key to update)' : 'Enter API key...';
+            apiKeyInput.setAttribute('data-api', apiKey);
+            
+            // Update save button event listener
+            saveApiKeyButton.onclick = () => {
+                const key = apiKeyInput.value.trim();
+                if (key && apiKeyManager.validateKey(apiKey, key)) {
+                    apiKeyManager.saveKey(apiKey, key);
+                } else {
+                    showToast('Invalid API key format', 'error');
+                }
+            };
+            
+            // Update generate button event listener
+            generateApiKeyButton.onclick = () => {
+                const key = apiKeyGenerator.generateUUID();
+                apiKeyInput.value = key;
+                apiKeyManager.saveKey(apiKey, key);
+            };
+            
+            apiModal.style.display = 'flex';
+        }
+        
+        // Key Generator modal
+        document.getElementById('generate-keys').addEventListener('click', () => {
+            keygenModal.style.display = 'flex';
+            keygenTerminal.innerHTML = '<div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-command">Initializing API key generation system...</span></div>';
+        });
+        
+        generateAllKeysButton.addEventListener('click', () => {
+            generateAllKeys();
+        });
+        
+        exportKeysButton.addEventListener('click', () => {
+            exportKeys();
+        });
+        
+        function generateAllKeys() {
+            keygenTerminal.innerHTML = '';
+            
+            addTerminalLine(keygenTerminal, '>', 'Initializing API key generation system...');
+            
+            setTimeout(() => {
+                addTerminalLine(keygenTerminal, '>', 'Scanning API database...');
+                
+                setTimeout(() => {
+                    addTerminalLine(keygenTerminal, '>', `Found ${Object.keys(apiDatabase).length} API endpoints`);
+                    
+                    setTimeout(() => {
+                        addTerminalLine(keygenTerminal, '>', 'Generating secure API keys...');
+                        
+                        setTimeout(() => {
+                            const keys = apiKeyGenerator.generateAllKeys();
+                            localStorage.setItem('apiKeys', JSON.stringify(keys));
+                            
+                            addTerminalLine(keygenTerminal, '', '✓ Successfully generated API keys for all endpoints:');
+                            
+                            // Show a few example keys
+                            let count = 0;
+                            for (const apiId in keys) {
+                                if (count < 5) { // Show only first 5 to avoid cluttering
+                                    const api = apiDatabase[apiId];
+                                    addTerminalLine(keygenTerminal, '', `  ${api.name}: ${keys[apiId].substring(0, 8)}...`);
+                                }
+                                count++;
+                            }
+                            
+                            if (count > 5) {
+                                addTerminalLine(keygenTerminal, '', `  ... and ${count - 5} more endpoints`);
+                            }
+                            
+                            addTerminalLine(keygenTerminal, '>', 'API keys saved to secure storage');
+                            
+                            showToast('All API keys generated successfully!', 'success');
+                        }, 1000);
+                    }, 800);
+                }, 600);
+            }, 400);
+        }
+
+        function exportKeys() {
+            const keys = JSON.parse(localStorage.getItem('apiKeys') || '{}');
+            const dataStr = JSON.stringify(keys, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'api-keys-' + new Date().toISOString().split('T')[0] + '.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showToast('API keys exported successfully!', 'success');
+        }
+
+        function addTerminalLine(terminal, prompt, text) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            
+            if (prompt) {
+                const promptSpan = document.createElement('span');
+                promptSpan.className = 'terminal-prompt';
+                promptSpan.textContent = prompt;
+                line.appendChild(promptSpan);
+            }
+            
+            const textSpan = document.createElement('span');
+            textSpan.className = prompt ? 'terminal-command' : 'terminal-output';
+            textSpan.textContent = text;
+            line.appendChild(textSpan);
+            
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        // Settings modal
+        settingsButton.addEventListener('click', () => {
+            settingsModal.style.display = 'flex';
+        });
+        
+        resetSettingsButton.addEventListener('click', () => {
+            settingsManager.resetSettings();
+        });
+        
+        // Save settings when toggles are changed
+        document.getElementById('dark-mode').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.theme = e.target.checked ? 'dark' : 'light';
+            settingsManager.saveSettings(settings);
+        });
+        
+        document.getElementById('holographic-effects').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.holographicEffects = e.target.checked;
+            settingsManager.saveSettings(settings);
+        });
+        
+        document.getElementById('auto-refresh').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.autoRefresh = e.target.checked;
+            settingsManager.saveSettings(settings);
+        });
+        
+        document.getElementById('health-monitoring').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.healthMonitoring = e.target.checked;
+            settingsManager.saveSettings(settings);
+        });
+        
+        document.getElementById('status-notifications').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.statusNotifications = e.target.checked;
+            settingsManager.saveSettings(settings);
+        });
+        
+        document.getElementById('health-alerts').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.healthAlerts = e.target.checked;
+            settingsManager.saveSettings(settings);
+        });
+        
+        document.getElementById('export-format').addEventListener('change', (e) => {
+            const settings = settingsManager.getSettings();
+            settings.defaultExportFormat = e.target.value;
+            settingsManager.saveSettings(settings);
+        });
+        
+        // ===============================
+        // TOAST NOTIFICATION SYSTEM
+        // ===============================
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast';
+            toast.classList.add(type, 'show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // ===============================
+        // QUICK ACTIONS FUNCTIONALITY
+        // ===============================
+        document.getElementById('scan-all').addEventListener('click', () => {
+            showToast('Initiating full API scan...', 'success');
+            // In a real app, this would trigger an actual scan of all APIs
+            setTimeout(() => {
+                showToast('API scan completed. 231 active, 12 limited, 4 offline', 'success');
+            }, 2000);
+        });
+        
+        document.getElementById('test-connection').addEventListener('click', () => {
+            showToast('Testing all API connections...', 'success');
+            // Test a few representative APIs
+            const testApis = ['github', 'shodan', 'openweather', 'maps'];
+            testApis.forEach(api => {
+                const button = document.querySelector(`[data-api="${api}"]`);
+                if (button) setTimeout(() => testAPI(api, button), Math.random() * 1000);
+            });
+        });
+        
+        document.getElementById('export-data').addEventListener('click', () => {
+            const format = settingsManager.getSettings().defaultExportFormat;
+            exportData(format);
+        });
+        
+        document.getElementById('show-stats').addEventListener('click', () => {
+            showToast('Displaying detailed statistics...', 'success');
+            // In a real app, this would show a detailed statistics modal
+        });
+        
+        // FAB functionality
+        document.getElementById('fab-scan').addEventListener('click', () => {
+            showToast('Quick scanning enabled APIs...', 'success');
+            // Scan only active APIs
+            Object.keys(apiDatabase).forEach(api => {
+                if (apiDatabase[api].status === 'active' && !apiDatabase[api].illegal) {
+                    const button = document.querySelector(`[data-api="${api}"]`);
+                    if (button) setTimeout(() => testAPI(api, button), Math.random() * 500);
+                }
+            });
+        });
+        
+        // ===============================
+        // HEALTH MONITORING
+        // ===============================
+        function startHealthMonitoring() {
+            if (!settingsManager.getSettings().healthMonitoring) return;
+            
+            setInterval(() => {
+                // Randomly update health status for demonstration
+                const apis = Object.keys(apiDatabase);
+                const randomApi = apis[Math.floor(Math.random() * apis.length)];
+                
+                if (apiDatabase[randomApi] && !apiDatabase[randomApi].illegal) {
+                    const healthLevels = ['excellent', 'good', 'fair', 'poor'];
+                    const currentHealth = apiDatabase[randomApi].health;
+                    const newHealth = healthLevels[Math.floor(Math.random() * healthLevels.length)];
+                    
+                    // Only change health 10% of the time to simulate real monitoring
+                    if (Math.random() < 0.1 && currentHealth !== newHealth) {
+                        apiDatabase[randomApi].health = newHealth;
+                        
+                        // Update UI if visible
+                        const healthElement = document.querySelector(`[data-api="${randomApi}"] .health-status`);
+                        if (healthElement) {
+                            healthElement.className = `health-status health-${newHealth}`;
+                            healthElement.textContent = newHealth.charAt(0).toUpperCase() + newHealth.slice(1);
+                            
+                            if (settingsManager.getSettings().healthAlerts) {
+                                showToast(`${apiDatabase[randomApi].name} health changed to ${newHealth}`, 'success');
+                            }
+                        }
+                    }
+                }
+            }, 10000); // Check every 10 seconds
+        }
+        
+        // Start health monitoring
+        startHealthMonitoring();
+        
+        // Initialize tooltips for status indicators
+        const statusIndicators = document.querySelectorAll('.status-indicator');
+        statusIndicators.forEach(indicator => {
+            indicator.title = 'Click for detailed status information';
+        });
+    </script>
+</body>
+</html>
