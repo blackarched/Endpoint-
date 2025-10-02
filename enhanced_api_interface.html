@@ -1139,7 +1139,7 @@
                         +12%
                     </div>
                 </div>
-                <div class="stat-value" id="total-apis">247</div>
+                <div class="stat-value" id="total-apis">0</div>
                 <div class="stat-label">Total APIs</div>
             </div>
             
@@ -1153,7 +1153,7 @@
                         +5%
                     </div>
                 </div>
-                <div class="stat-value" id="active-apis">198</div>
+                <div class="stat-value" id="active-apis">0</div>
                 <div class="stat-label">Active APIs</div>
             </div>
             
@@ -1167,7 +1167,7 @@
                         -2%
                     </div>
                 </div>
-                <div class="stat-value" id="avg-response">156ms</div>
+                <div class="stat-value" id="avg-response">0ms</div>
                 <div class="stat-label">Avg Response Time</div>
             </div>
             
@@ -1181,7 +1181,7 @@
                         +8%
                     </div>
                 </div>
-                <div class="stat-value" id="generated-keys">1,247</div>
+                <div class="stat-value" id="generated-keys">0</div>
                 <div class="stat-label">Generated Keys</div>
             </div>
         </div>
@@ -1202,7 +1202,7 @@
                 <div class="category-title">
                     <i class="fas fa-network-wired"></i>
                     Network Discovery APIs
-                    <span class="category-count">12</span>
+                    <span class="category-count" id="network-count">0</span>
                 </div>
             </div>
             <table class="api-table">
@@ -1285,7 +1285,7 @@
                 <div class="category-title">
                     <i class="fas fa-shield-alt"></i>
                     Security & Threat Intelligence
-                    <span class="category-count">18</span>
+                    <span class="category-count" id="security-count">0</span>
                 </div>
             </div>
             <table class="api-table">
@@ -1368,7 +1368,7 @@
                 <div class="category-title">
                     <i class="fas fa-brain"></i>
                     AI & Machine Learning
-                    <span class="category-count">25</span>
+                    <span class="category-count" id="ai-count">0</span>
                 </div>
             </div>
             <table class="api-table">
@@ -1712,11 +1712,14 @@
         </div>
     </div>
 
+    <script src="comprehensive_api_database.js"></script>
     <script>
         // ===============================
-        // ENHANCED API DATABASE
+        // COMPREHENSIVE API DATABASE INTEGRATION
         // ===============================
-        const apiDatabase = {
+        
+        // Use the comprehensive database if available, otherwise fallback to basic one
+        const apiDatabase = typeof comprehensiveApiDatabase !== 'undefined' ? comprehensiveApiDatabase : {
             // Network APIs
             'openweather': {
                 name: 'OpenWeatherMap',
@@ -1890,6 +1893,124 @@
                 return this.generateHex(32);
             },
             
+            // Social Media Key Generators
+            generateTwitterKey: function() {
+                return this.generateSecureRandom(105);
+            },
+            
+            generateFacebookKey: function() {
+                return this.generateSecureRandom(150);
+            },
+            
+            generateInstagramKey: function() {
+                return this.generateSecureRandom(150);
+            },
+            
+            generateLinkedInKey: function() {
+                return this.generateSecureRandom(86);
+            },
+            
+            generateDiscordKey: function() {
+                const part1 = this.generateSecureRandom(24);
+                const part2 = this.generateSecureRandom(6);
+                const part3 = this.generateSecureRandom(27, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-');
+                return `${part1}.${part2}.${part3}`;
+            },
+            
+            generateSlackKey: function() {
+                const timestamp1 = Math.floor(Date.now() / 1000).toString();
+                const timestamp2 = (Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000)).toString();
+                const token = this.generateSecureRandom(24);
+                return `xoxb-${timestamp1}-${timestamp2}-${token}`;
+            },
+            
+            // Cryptocurrency Key Generators
+            generateCoinGeckoKey: function() {
+                return 'CG-' + this.generateSecureRandom(32);
+            },
+            
+            generateBinanceKey: function() {
+                return {
+                    apiKey: this.generateSecureRandom(64),
+                    secretKey: this.generateSecureRandom(64)
+                };
+            },
+            
+            generateCoinbaseKey: function() {
+                return this.generateHex(32);
+            },
+            
+            generateCryptoCompareKey: function() {
+                return this.generateHex(64);
+            },
+            
+            // Communication Key Generators
+            generateTwilioKey: function() {
+                return this.generateHex(32);
+            },
+            
+            generateSendGridKey: function() {
+                const part1 = this.generateSecureRandom(22, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-');
+                const part2 = this.generateSecureRandom(43, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-');
+                return `SG.${part1}.${part2}`;
+            },
+            
+            // Maps & Location Key Generators
+            generateMapboxKey: function() {
+                return 'pk.' + this.generateSecureRandom(80);
+            },
+            
+            // Payment Key Generators
+            generatePayPalKey: function() {
+                return this.generateSecureRandom(120, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.');
+            },
+            
+            generateSquareKey: function() {
+                return 'sq0atp-' + this.generateSecureRandom(43, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_');
+            },
+            
+            // E-commerce Key Generators
+            generateShopifyKey: function() {
+                return 'shpat_' + this.generateHex(32);
+            },
+            
+            generateWooCommerceKey: function() {
+                return 'ck_' + this.generateHex(40);
+            },
+            
+            // Additional Service Key Generators
+            generateHuggingFaceKey: function() {
+                return 'hf_' + this.generateSecureRandom(37);
+            },
+            
+            generateIPInfoKey: function() {
+                return this.generateHex(14);
+            },
+            
+            generateCloudflareKey: function() {
+                return this.generateHex(37);
+            },
+            
+            generatePingdomKey: function() {
+                return this.generateHex(32);
+            },
+            
+            generateMalwareBazaarKey: function() {
+                return this.generateHex(64);
+            },
+            
+            generateGreyNoiseKey: function() {
+                return this.generateHex(32);
+            },
+            
+            generateStabilityKey: function() {
+                return 'sk-' + this.generateSecureRandom(48);
+            },
+            
+            generateGitLabKey: function() {
+                return 'glpat-' + this.generateSecureRandom(20, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_');
+            },
+            
             // Generate key based on service
             generateForService: function(service) {
                 switch(service) {
@@ -1898,15 +2019,80 @@
                     case 'anthropic':
                         return this.generateAnthropicKey();
                     case 'google':
+                    case 'gemini':
+                    case 'googlemaps':
+                    case 'gcp':
                         return this.generateGoogleKey();
                     case 'github':
                         return this.generateGitHubKey();
+                    case 'gitlab':
+                        return this.generateGitLabKey();
                     case 'stripe':
                         return this.generateStripeKey();
                     case 'aws':
                         return this.generateAWSKey();
                     case 'azure':
                         return this.generateAzureKey();
+                    case 'twitter':
+                        return this.generateTwitterKey();
+                    case 'facebook':
+                        return this.generateFacebookKey();
+                    case 'instagram':
+                        return this.generateInstagramKey();
+                    case 'linkedin':
+                        return this.generateLinkedInKey();
+                    case 'discord':
+                        return this.generateDiscordKey();
+                    case 'slack':
+                        return this.generateSlackKey();
+                    case 'coingecko':
+                        return this.generateCoinGeckoKey();
+                    case 'binance':
+                        return this.generateBinanceKey();
+                    case 'coinbase':
+                        return this.generateCoinbaseKey();
+                    case 'cryptocompare':
+                        return this.generateCryptoCompareKey();
+                    case 'twilio':
+                        return this.generateTwilioKey();
+                    case 'sendgrid':
+                        return this.generateSendGridKey();
+                    case 'mapbox':
+                        return this.generateMapboxKey();
+                    case 'paypal':
+                        return this.generatePayPalKey();
+                    case 'square':
+                        return this.generateSquareKey();
+                    case 'shopify':
+                        return this.generateShopifyKey();
+                    case 'woocommerce':
+                        return this.generateWooCommerceKey();
+                    case 'huggingface':
+                        return this.generateHuggingFaceKey();
+                    case 'ipinfo':
+                        return this.generateIPInfoKey();
+                    case 'cloudflare':
+                        return this.generateCloudflareKey();
+                    case 'pingdom':
+                        return this.generatePingdomKey();
+                    case 'malwarebazaar':
+                        return this.generateMalwareBazaarKey();
+                    case 'greynoise':
+                        return this.generateGreyNoiseKey();
+                    case 'stability':
+                        return this.generateStabilityKey();
+                    case 'openweather':
+                        return this.generateHex(32);
+                    case 'shodan':
+                        return this.generateSecureRandom(32);
+                    case 'censys':
+                        return this.generateUUID();
+                    case 'virustotal':
+                        return this.generateHex(64);
+                    case 'abuseipdb':
+                        return this.generateHex(80);
+                    case 'hibp':
+                        return this.generateHex(32);
                     default:
                         return this.generateUUID();
                 }
@@ -2216,6 +2402,125 @@
                 }
             },
             
+            // Test Censys API
+            testCensys: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://search.censys.io/api/v2/hosts/8.8.8.8', {
+                        headers: {
+                            'Authorization': `Basic ${btoa(apiKey + ':')}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test AbuseIPDB API
+            testAbuseIPDB: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://api.abuseipdb.com/api/v2/check?ipAddress=8.8.8.8&maxAgeInDays=90', {
+                        headers: {
+                            'Key': apiKey,
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test Have I Been Pwned API
+            testHIBP: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://haveibeenpwned.com/api/v3/breachedaccount/test@example.com', {
+                        headers: {
+                            'hibp-api-key': apiKey,
+                            'User-Agent': 'NEXUS-API-Dashboard'
+                        }
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok || response.status === 404, // 404 is valid (no breaches)
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test Google Gemini API
+            testGemini: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models?key=${apiKey}`);
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
             // Get appropriate tester for service
             getServiceTester: function(serviceId) {
                 const testers = {
@@ -2224,7 +2529,11 @@
                     'openai': this.testOpenAI,
                     'anthropic': this.testAnthropic,
                     'virustotal': this.testVirusTotal,
-                    'shodan': this.testShodan
+                    'shodan': this.testShodan,
+                    'censys': this.testCensys,
+                    'abuseipdb': this.testAbuseIPDB,
+                    'hibp': this.testHIBP,
+                    'gemini': this.testGemini
                 };
                 
                 return testers[serviceId] || this.testGenericAPI;
@@ -3011,20 +3320,82 @@
             const successEl = document.getElementById('live-success');
             const chartEl = document.getElementById('live-chart');
             
+            // Initialize live chart
+            initializeLiveChart(chartEl);
+            
             liveMonitoringInterval = setInterval(() => {
-                // Simulate live data (replace with real monitoring)
-                const requests = Math.floor(Math.random() * 100 + 50);
-                const latency = Math.floor(Math.random() * 200 + 100);
-                const success = Math.floor(Math.random() * 10 + 90);
+                // Calculate real-time metrics from actual usage data
+                const realTimeMetrics = calculateRealTimeMetrics();
                 
-                requestsEl.textContent = requests;
-                latencyEl.textContent = latency + 'ms';
-                successEl.textContent = success + '%';
+                requestsEl.textContent = realTimeMetrics.requestsPerMinute;
+                latencyEl.textContent = realTimeMetrics.averageLatency + 'ms';
+                successEl.textContent = realTimeMetrics.successRate + '%';
                 
-                // Update live chart
-                updateLiveChart(chartEl, {requests, latency, success});
+                // Update live chart with real data
+                updateLiveChart(chartEl, realTimeMetrics);
                 
             }, 2000);
+        }
+        
+        function calculateRealTimeMetrics() {
+            const usage = JSON.parse(localStorage.getItem('apiUsageStats') || '{}');
+            const now = new Date();
+            const currentMinute = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
+            const oneMinuteAgo = new Date(currentMinute.getTime() - 60000);
+            
+            // Get recent usage data (last hour)
+            const recentData = [];
+            for (let i = 0; i < 60; i++) {
+                const checkTime = new Date(currentMinute.getTime() - (i * 60000));
+                const dateStr = checkTime.toISOString().split('T')[0];
+                
+                if (usage[dateStr]) {
+                    Object.values(usage[dateStr]).forEach(apiStats => {
+                        recentData.push(apiStats);
+                    });
+                }
+            }
+            
+            // Calculate metrics from real data
+            let totalRequests = 0;
+            let totalSuccesses = 0;
+            let totalResponseTime = 0;
+            let totalFailures = 0;
+            
+            recentData.forEach(stats => {
+                totalRequests += stats.requests || 0;
+                totalSuccesses += stats.successes || 0;
+                totalResponseTime += stats.totalResponseTime || 0;
+                totalFailures += (stats.requests || 0) - (stats.successes || 0);
+            });
+            
+            return {
+                requestsPerMinute: Math.round(totalRequests / 60), // Average per minute
+                averageLatency: totalSuccesses > 0 ? Math.round(totalResponseTime / totalSuccesses) : 0,
+                successRate: totalRequests > 0 ? Math.round((totalSuccesses / totalRequests) * 100) : 100,
+                totalRequests,
+                totalSuccesses,
+                totalFailures
+            };
+        }
+        
+        function initializeLiveChart(container) {
+            container.innerHTML = '';
+            // Create initial empty bars for the live chart
+            const metrics = ['Requests', 'Latency', 'Success'];
+            metrics.forEach(label => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = '20px';
+                bar.dataset.metric = label.toLowerCase();
+                
+                const labelEl = document.createElement('div');
+                labelEl.className = 'chart-label';
+                labelEl.textContent = label;
+                bar.appendChild(labelEl);
+                
+                container.appendChild(bar);
+            });
         }
         
         function stopLiveMonitoring() {
@@ -3114,15 +3485,58 @@
         }
         
         function updateStatistics() {
+            // Calculate real statistics from actual data
             const totalApis = Object.keys(apiDatabase).length;
             const activeApis = Object.values(apiDatabase).filter(api => api.status === 'active').length;
-            const avgResponse = Math.floor(Math.random() * 100 + 100); // Simulated
-            const generatedKeys = JSON.parse(localStorage.getItem('generatedAPIKeys') || '{}');
             
+            // Calculate real average response time from usage statistics
+            const avgResponse = calculateRealAverageResponseTime();
+            
+            // Count actual generated and stored keys
+            const generatedKeys = JSON.parse(localStorage.getItem('generatedAPIKeys') || '{}');
+            const userKeys = JSON.parse(localStorage.getItem('userAPIKeys') || '{}');
+            const totalKeys = Object.keys({...generatedKeys, ...userKeys}).length;
+            
+            // Update display with real values
             document.getElementById('total-apis').textContent = totalApis;
             document.getElementById('active-apis').textContent = activeApis;
             document.getElementById('avg-response').textContent = avgResponse + 'ms';
-            document.getElementById('generated-keys').textContent = Object.keys(generatedKeys).length;
+            document.getElementById('generated-keys').textContent = totalKeys;
+            
+            // Update category counts
+            updateCategoryCounts();
+        }
+        
+        function updateCategoryCounts() {
+            const categories = ['network', 'security', 'ai', 'social', 'crypto', 'payment', 'communication', 'maps', 'ecommerce', 'cloud', 'development'];
+            
+            categories.forEach(category => {
+                const count = Object.values(apiDatabase).filter(api => api.category === category).length;
+                const countElement = document.getElementById(`${category}-count`);
+                if (countElement) {
+                    countElement.textContent = count;
+                }
+            });
+        }
+        
+        function calculateRealAverageResponseTime() {
+            const usage = JSON.parse(localStorage.getItem('apiUsageStats') || '{}');
+            let totalResponseTime = 0;
+            let totalSuccessfulRequests = 0;
+            
+            // Aggregate response times from all stored usage data
+            Object.values(usage).forEach(dayData => {
+                Object.values(dayData).forEach(apiStats => {
+                    if (apiStats.successes > 0 && apiStats.totalResponseTime > 0) {
+                        totalResponseTime += apiStats.totalResponseTime;
+                        totalSuccessfulRequests += apiStats.successes;
+                    }
+                });
+            });
+            
+            // Return calculated average or fallback to 0 if no data
+            return totalSuccessfulRequests > 0 ? 
+                Math.round(totalResponseTime / totalSuccessfulRequests) : 0;
         }
         
         function updateGeneratedKeysCount(count) {
@@ -3131,12 +3545,48 @@
         
         function generateUsageChart() {
             const chartContainer = document.getElementById('usage-chart');
-            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const usage = JSON.parse(localStorage.getItem('apiUsageStats') || '{}');
             
-            days.forEach(day => {
+            // Get last 7 days of real usage data
+            const days = [];
+            const usageData = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayName = date.toLocaleDateString('en', { weekday: 'short' });
+                
+                days.push(dayName);
+                
+                // Calculate total requests for this day
+                let totalRequests = 0;
+                if (usage[dateStr]) {
+                    Object.values(usage[dateStr]).forEach(apiStats => {
+                        totalRequests += apiStats.requests || 0;
+                    });
+                }
+                usageData.push(totalRequests);
+            }
+            
+            // Find max value for scaling
+            const maxRequests = Math.max(...usageData, 1);
+            
+            // Clear existing chart
+            chartContainer.innerHTML = '';
+            
+            // Create bars with real data
+            days.forEach((day, index) => {
                 const bar = document.createElement('div');
                 bar.className = 'chart-bar';
-                bar.style.height = Math.floor(Math.random() * 150 + 50) + 'px';
+                
+                // Scale height based on real data (50px minimum, 150px maximum)
+                const height = usageData[index] > 0 ? 
+                    Math.max(50, (usageData[index] / maxRequests) * 150) : 20;
+                bar.style.height = height + 'px';
+                
+                // Add tooltip with actual data
+                bar.title = `${day}: ${usageData[index]} requests`;
                 
                 const label = document.createElement('div');
                 label.className = 'chart-label';
@@ -3200,11 +3650,67 @@
         }
         
         function updateHealthStatus() {
-            // Simulate health changes
+            // Update health status based on real API performance data
+            const usage = JSON.parse(localStorage.getItem('apiUsageStats') || '{}');
+            const today = new Date().toISOString().split('T')[0];
+            
             Object.keys(apiDatabase).forEach(apiId => {
-                if (Math.random() < 0.1) { // 10% chance to change
-                    const healths = ['excellent', 'good', 'fair', 'poor'];
-                    apiDatabase[apiId].health = healths[Math.floor(Math.random() * healths.length)];
+                let newHealth = 'unknown';
+                
+                // Check if we have recent usage data for this API
+                if (usage[today] && usage[today][apiId]) {
+                    const stats = usage[today][apiId];
+                    const successRate = stats.requests > 0 ? (stats.successes / stats.requests) : 0;
+                    const avgResponseTime = stats.successes > 0 ? (stats.totalResponseTime / stats.successes) : 0;
+                    
+                    // Determine health based on success rate and response time
+                    if (successRate >= 0.95 && avgResponseTime < 200) {
+                        newHealth = 'excellent';
+                    } else if (successRate >= 0.90 && avgResponseTime < 500) {
+                        newHealth = 'good';
+                    } else if (successRate >= 0.75 && avgResponseTime < 1000) {
+                        newHealth = 'fair';
+                    } else if (successRate < 0.75 || avgResponseTime >= 1000) {
+                        newHealth = 'poor';
+                    }
+                } else {
+                    // Check last 7 days if no data today
+                    let totalRequests = 0;
+                    let totalSuccesses = 0;
+                    let totalResponseTime = 0;
+                    
+                    for (let i = 0; i < 7; i++) {
+                        const date = new Date();
+                        date.setDate(date.getDate() - i);
+                        const dateStr = date.toISOString().split('T')[0];
+                        
+                        if (usage[dateStr] && usage[dateStr][apiId]) {
+                            const stats = usage[dateStr][apiId];
+                            totalRequests += stats.requests || 0;
+                            totalSuccesses += stats.successes || 0;
+                            totalResponseTime += stats.totalResponseTime || 0;
+                        }
+                    }
+                    
+                    if (totalRequests > 0) {
+                        const successRate = totalSuccesses / totalRequests;
+                        const avgResponseTime = totalSuccesses > 0 ? (totalResponseTime / totalSuccesses) : 0;
+                        
+                        if (successRate >= 0.95 && avgResponseTime < 200) {
+                            newHealth = 'excellent';
+                        } else if (successRate >= 0.90 && avgResponseTime < 500) {
+                            newHealth = 'good';
+                        } else if (successRate >= 0.75 && avgResponseTime < 1000) {
+                            newHealth = 'fair';
+                        } else {
+                            newHealth = 'poor';
+                        }
+                    }
+                }
+                
+                // Only update if we determined a health status
+                if (newHealth !== 'unknown') {
+                    apiDatabase[apiId].health = newHealth;
                 }
             });
         }
