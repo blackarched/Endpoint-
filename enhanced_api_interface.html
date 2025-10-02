@@ -1,0 +1,3255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Holographic API Interface | Advanced Network & Security Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary: #00f3ff;
+            --secondary: #9d4edd;
+            --accent: #ff00c8;
+            --danger: #ff003c;
+            --warning: #ff9e00;
+            --success: #00ff88;
+            --info: #0099ff;
+            --dark: #0a0a16;
+            --darker: #000000;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-hover: rgba(255, 255, 255, 0.12);
+            --glow-primary: 0 0 20px var(--primary), 0 0 40px var(--primary), 0 0 60px var(--primary);
+            --glow-secondary: 0 0 20px var(--secondary), 0 0 40px var(--secondary);
+            --glow-accent: 0 0 20px var(--accent), 0 0 40px var(--accent);
+            --glow-danger: 0 0 20px var(--danger), 0 0 40px var(--danger);
+            --glow-success: 0 0 20px var(--success), 0 0 40px var(--success);
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--warning));
+            --gradient-dark: linear-gradient(135deg, var(--dark), var(--darker));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--darker);
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Enhanced animated background */
+        .hologram-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            opacity: 0.4;
+            animation: gridMove 30s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-primary);
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--gradient-accent);
+            top: 60%;
+            left: 80%;
+            animation-delay: -7s;
+        }
+        
+        .shape-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 30%;
+            left: 70%;
+            animation-delay: -14s;
+        }
+        
+        .shape-4 {
+            width: 350px;
+            height: 350px;
+            background: var(--accent);
+            top: 80%;
+            left: 20%;
+            animation-delay: -3s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(30px, -30px) rotate(90deg) scale(1.1); }
+            50% { transform: translate(-20px, 20px) rotate(180deg) scale(0.9); }
+            75% { transform: translate(-30px, -10px) rotate(270deg) scale(1.05); }
+        }
+        
+        /* Enhanced header */
+        .header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: var(--glow-primary);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .logo-text h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-text p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: -5px;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .action-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
+            padding: 0.7rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .action-btn:hover {
+            background: var(--glass-hover);
+            box-shadow: var(--glow-primary);
+            transform: translateY(-2px);
+        }
+        
+        .action-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--glow-primary);
+        }
+        
+        .action-btn.primary:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        /* Enhanced navigation */
+        .nav-container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: #ccc;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .nav-item:hover::before,
+        .nav-item.active::before {
+            left: 0;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+            transform: translateY(-2px);
+        }
+        
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .search-input::placeholder {
+            color: #888;
+        }
+        
+        .filter-select {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .filter-select option {
+            background: var(--dark);
+            color: white;
+        }
+        
+        /* Enhanced main content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: var(--glow-primary);
+        }
+        
+        .stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+        }
+        
+        .stat-label {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .trend-up {
+            color: var(--success);
+        }
+        
+        .trend-down {
+            color: var(--danger);
+        }
+        
+        /* Enhanced API tables */
+        .category-section {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .category-header {
+            background: var(--gradient-primary);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .category-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .api-table th {
+            background: var(--glass);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 1px solid var(--glass-border);
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .api-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .api-table tr:hover {
+            background: var(--glass-hover);
+        }
+        
+        .endpoint {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 243, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+        
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .status-active {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-inactive {
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .health-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .health-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .health-excellent { background: var(--success); }
+        .health-good { background: var(--info); }
+        .health-fair { background: var(--warning); }
+        .health-poor { background: var(--danger); }
+        
+        .test-api {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 80px;
+            justify-content: center;
+        }
+        
+        .test-api:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .test-api:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .manage-key-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--warning);
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .manage-key-btn:hover {
+            background: var(--warning);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 158, 0, 0.3);
+        }
+        
+        .manage-key-btn.has-key {
+            color: var(--success);
+            border-color: var(--success);
+        }
+        
+        .manage-key-btn.has-key:hover {
+            background: var(--success);
+        }
+        
+        .loading {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Enhanced modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .modal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--glass-hover);
+            color: var(--danger);
+        }
+        
+        /* Enhanced terminal */
+        .terminal {
+            background: #000;
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            height: 300px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+        
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .terminal-prompt {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .terminal-command {
+            color: #00ff88;
+        }
+        
+        .terminal-output {
+            color: #ccc;
+        }
+        
+        .terminal-error {
+            color: var(--danger);
+        }
+        
+        /* Enhanced forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .form-input::placeholder {
+            color: #666;
+        }
+        
+        .btn {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--glow-primary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+        
+        .btn.secondary {
+            background: var(--glass);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn.secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            color: white;
+            z-index: 10001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .search-filters {
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                width: calc(100% - 2rem);
+            }
+        }
+        
+        /* Additional enhancements */
+        .glow-effect {
+            position: relative;
+        }
+        
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-primary);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .glow-effect:hover::after {
+            opacity: 0.7;
+        }
+        
+        .data-visualization {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 0.5rem;
+            padding: 1rem 0;
+        }
+        
+        .chart-bar {
+            background: var(--gradient-primary);
+            border-radius: 4px 4px 0 0;
+            min-width: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .chart-bar:hover {
+            transform: scaleY(1.1);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: #ccc;
+        }
+        
+        /* Key Management Modal Styles */
+        .key-input-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .key-input-container .form-input {
+            flex: 1;
+        }
+        
+        .service-info {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .service-details p {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+        
+        .service-details a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .service-details a:hover {
+            text-decoration: underline;
+        }
+        
+        .key-status {
+            margin-top: 0.5rem;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-indicator.unknown {
+            background: rgba(128, 128, 128, 0.2);
+            color: #888;
+            border: 1px solid #666;
+        }
+        
+        .status-indicator.valid {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-indicator.invalid {
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .status-indicator.testing {
+            background: rgba(0, 153, 255, 0.2);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+        
+        .key-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .stat-label {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .stat-value {
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="hologram-grid"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <!-- Enhanced Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>NEXUS API</h1>
+                    <p>Advanced Network & Security Dashboard</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn" id="real-time-monitor">
+                    <i class="fas fa-chart-line"></i>
+                    Real-time Monitor
+                </button>
+                <button class="action-btn" id="generate-keys">
+                    <i class="fas fa-key"></i>
+                    Generate Keys
+                </button>
+                <button class="action-btn primary" id="settings-button">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Enhanced Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="nav-tabs">
+                <button class="nav-item active" data-category="all">
+                    <i class="fas fa-globe"></i>
+                    All APIs
+                </button>
+                <button class="nav-item" data-category="network">
+                    <i class="fas fa-network-wired"></i>
+                    Network
+                </button>
+                <button class="nav-item" data-category="security">
+                    <i class="fas fa-shield-alt"></i>
+                    Security
+                </button>
+                <button class="nav-item" data-category="social">
+                    <i class="fas fa-users"></i>
+                    Social
+                </button>
+                <button class="nav-item" data-category="ai">
+                    <i class="fas fa-brain"></i>
+                    AI/ML
+                </button>
+                <button class="nav-item" data-category="crypto">
+                    <i class="fas fa-coins"></i>
+                    Crypto
+                </button>
+            </div>
+            <div class="search-filters">
+                <input type="text" class="search-input" id="search-input" placeholder="Search APIs...">
+                <select class="filter-select" id="status-filter">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+                <select class="filter-select" id="health-filter">
+                    <option value="all">All Health</option>
+                    <option value="excellent">Excellent</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                    <option value="poor">Poor</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Enhanced Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        +12%
+                    </div>
+                </div>
+                <div class="stat-value" id="total-apis">247</div>
+                <div class="stat-label">Total APIs</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        +5%
+                    </div>
+                </div>
+                <div class="stat-value" id="active-apis">198</div>
+                <div class="stat-label">Active APIs</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="stat-trend trend-down">
+                        <i class="fas fa-arrow-down"></i>
+                        -2%
+                    </div>
+                </div>
+                <div class="stat-value" id="avg-response">156ms</div>
+                <div class="stat-label">Avg Response Time</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        +8%
+                    </div>
+                </div>
+                <div class="stat-value" id="generated-keys">1,247</div>
+                <div class="stat-label">Generated Keys</div>
+            </div>
+        </div>
+
+        <!-- Data Visualization -->
+        <div class="data-visualization">
+            <h3 style="color: var(--primary); margin-bottom: 1rem; font-family: 'Orbitron', monospace;">
+                <i class="fas fa-chart-bar"></i> API Usage Analytics
+            </h3>
+            <div class="chart-container" id="usage-chart">
+                <!-- Chart bars will be generated dynamically -->
+            </div>
+        </div>
+
+        <!-- Network Discovery APIs -->
+        <section class="category-section" data-category="network">
+            <div class="category-header">
+                <div class="category-title">
+                    <i class="fas fa-network-wired"></i>
+                    Network Discovery APIs
+                    <span class="category-count">12</span>
+                </div>
+            </div>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Auth</th>
+                        <th>Test</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>OpenWeatherMap</strong></td>
+                        <td><code class="endpoint">api.openweathermap.org</code></td>
+                        <td>Weather data and network conditions</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-excellent"></div>
+                                Excellent
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="openweather">Test</button>
+                            <button class="manage-key-btn" data-api="openweather" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shodan</strong></td>
+                        <td><code class="endpoint">api.shodan.io</code></td>
+                        <td>Internet-connected device search</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-good"></div>
+                                Good
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="shodan">Test</button>
+                            <button class="manage-key-btn" data-api="shodan" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Censys</strong></td>
+                        <td><code class="endpoint">search.censys.io</code></td>
+                        <td>Internet host and certificate search</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-excellent"></div>
+                                Excellent
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="censys">Test</button>
+                            <button class="manage-key-btn" data-api="censys" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Security APIs -->
+        <section class="category-section" data-category="security">
+            <div class="category-header">
+                <div class="category-title">
+                    <i class="fas fa-shield-alt"></i>
+                    Security & Threat Intelligence
+                    <span class="category-count">18</span>
+                </div>
+            </div>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Auth</th>
+                        <th>Test</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>VirusTotal</strong></td>
+                        <td><code class="endpoint">www.virustotal.com/api/v3</code></td>
+                        <td>File and URL analysis</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-excellent"></div>
+                                Excellent
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="virustotal">Test</button>
+                            <button class="manage-key-btn" data-api="virustotal" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>AbuseIPDB</strong></td>
+                        <td><code class="endpoint">api.abuseipdb.com/api/v2</code></td>
+                        <td>IP reputation and abuse reports</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-good"></div>
+                                Good
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="abuseipdb">Test</button>
+                            <button class="manage-key-btn" data-api="abuseipdb" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Have I Been Pwned</strong></td>
+                        <td><code class="endpoint">haveibeenpwned.com/api/v3</code></td>
+                        <td>Data breach monitoring</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-fair"></div>
+                                Fair
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="hibp">Test</button>
+                            <button class="manage-key-btn" data-api="hibp" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- AI/ML APIs -->
+        <section class="category-section" data-category="ai">
+            <div class="category-header">
+                <div class="category-title">
+                    <i class="fas fa-brain"></i>
+                    AI & Machine Learning
+                    <span class="category-count">25</span>
+                </div>
+            </div>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                        <th>Auth</th>
+                        <th>Test</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>OpenAI</strong></td>
+                        <td><code class="endpoint">api.openai.com/v1</code></td>
+                        <td>GPT models and AI services</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-excellent"></div>
+                                Excellent
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="openai">Test</button>
+                            <button class="manage-key-btn" data-api="openai" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Anthropic Claude</strong></td>
+                        <td><code class="endpoint">api.anthropic.com/v1</code></td>
+                        <td>Claude AI assistant</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-excellent"></div>
+                                Excellent
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="anthropic">Test</button>
+                            <button class="manage-key-btn" data-api="anthropic" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Google Gemini</strong></td>
+                        <td><code class="endpoint">generativelanguage.googleapis.com</code></td>
+                        <td>Google's AI language model</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="health-indicator">
+                                <div class="health-dot health-good"></div>
+                                Good
+                            </div>
+                        </td>
+                        <td>API Key</td>
+                        <td>
+                            <button class="test-api" data-api="gemini">Test</button>
+                            <button class="manage-key-btn" data-api="gemini" title="Manage API Key">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Enhanced API Key Generator Modal -->
+    <div class="modal" id="keygen-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-key"></i>
+                    Advanced API Key Generator
+                </h2>
+                <button class="modal-close" id="keygen-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select API Service:</label>
+                    <select class="form-input" id="api-service-select">
+                        <option value="">Choose a service...</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="anthropic">Anthropic Claude</option>
+                        <option value="google">Google APIs</option>
+                        <option value="github">GitHub</option>
+                        <option value="stripe">Stripe</option>
+                        <option value="aws">AWS</option>
+                        <option value="azure">Microsoft Azure</option>
+                        <option value="custom">Custom Format</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="custom-format-group" style="display: none;">
+                    <label class="form-label">Custom Key Format:</label>
+                    <input type="text" class="form-input" id="custom-format" placeholder="e.g., sk-{32}-{timestamp}">
+                    <small style="color: #888; font-size: 0.8rem;">
+                        Use {n} for n random characters, {timestamp} for current timestamp
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Number of Keys:</label>
+                    <input type="number" class="form-input" id="key-count" value="1" min="1" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" id="generate-single-key">
+                        <i class="fas fa-key"></i>
+                        Generate Keys
+                    </button>
+                    <button class="btn secondary" id="generate-all-keys">
+                        <i class="fas fa-layer-group"></i>
+                        Generate All Services
+                    </button>
+                </div>
+                
+                <div class="terminal" id="keygen-terminal">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">></span>
+                        <span class="terminal-command">Ready to generate API keys...</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn secondary" id="export-keys">
+                        <i class="fas fa-download"></i>
+                        Export Keys
+                    </button>
+                    <button class="btn secondary" id="import-keys">
+                        <i class="fas fa-upload"></i>
+                        Import Keys
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-cog"></i>
+                    Settings & Configuration
+                </h2>
+                <button class="modal-close" id="settings-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Theme:</label>
+                    <select class="form-input" id="theme-select">
+                        <option value="dark">Dark (Default)</option>
+                        <option value="light">Light</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Auto-refresh Interval (seconds):</label>
+                    <input type="number" class="form-input" id="refresh-interval" value="30" min="5" max="300">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="enable-notifications" checked>
+                        Enable Notifications
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="enable-sound" checked>
+                        Enable Sound Effects
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" id="save-settings">
+                        <i class="fas fa-save"></i>
+                        Save Settings
+                    </button>
+                    <button class="btn secondary" id="reset-settings">
+                        <i class="fas fa-undo"></i>
+                        Reset to Default
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-time Monitor Modal -->
+    <div class="modal" id="monitor-modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-chart-line"></i>
+                    Real-time API Monitor
+                </h2>
+                <button class="modal-close" id="monitor-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="live-requests">0</div>
+                        <div class="stat-label">Requests/min</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="live-latency">0ms</div>
+                        <div class="stat-label">Avg Latency</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="live-success">100%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+                
+                <div class="data-visualization">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Live Performance Chart</h3>
+                    <div class="chart-container" id="live-chart">
+                        <!-- Live chart will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Management Modal -->
+    <div class="modal" id="key-management-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-key"></i>
+                    API Key Management
+                </h2>
+                <button class="modal-close" id="key-management-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" id="key-service-name">Service Name</label>
+                    <div class="service-info" id="service-info">
+                        <div class="service-details">
+                            <p><strong>Endpoint:</strong> <span id="service-endpoint"></span></p>
+                            <p><strong>Authentication:</strong> <span id="service-auth"></span></p>
+                            <p><strong>Documentation:</strong> <a id="service-docs" href="#" target="_blank">View Docs</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Current API Key:</label>
+                    <div class="key-input-container">
+                        <input type="password" class="form-input" id="current-api-key" placeholder="Enter your API key...">
+                        <button class="btn secondary" id="toggle-key-visibility" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small style="color: #888; font-size: 0.8rem;" id="key-format-hint">
+                        Expected format will be shown here
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Key Status:</label>
+                    <div class="key-status" id="key-status">
+                        <span class="status-indicator" id="key-status-indicator">
+                            <i class="fas fa-question-circle"></i>
+                            Unknown
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" id="save-api-key">
+                        <i class="fas fa-save"></i>
+                        Save Key
+                    </button>
+                    <button class="btn secondary" id="test-api-key">
+                        <i class="fas fa-vial"></i>
+                        Test Key
+                    </button>
+                    <button class="btn secondary" id="generate-new-key">
+                        <i class="fas fa-magic"></i>
+                        Generate New
+                    </button>
+                    <button class="btn" id="delete-api-key" style="background: var(--danger);">
+                        <i class="fas fa-trash"></i>
+                        Delete Key
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Key Usage Statistics:</label>
+                    <div class="key-stats" id="key-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Requests:</span>
+                            <span class="stat-value" id="total-requests">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Success Rate:</span>
+                            <span class="stat-value" id="success-rate">0%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Avg Response Time:</span>
+                            <span class="stat-value" id="avg-response-time">0ms</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Last Used:</span>
+                            <span class="stat-value" id="last-used">Never</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===============================
+        // ENHANCED API DATABASE
+        // ===============================
+        const apiDatabase = {
+            // Network APIs
+            'openweather': {
+                name: 'OpenWeatherMap',
+                endpoint: 'api.openweathermap.org/data/2.5/weather',
+                description: 'Weather data and network conditions',
+                category: 'network',
+                status: 'active',
+                health: 'excellent',
+                authentication: 'API Key',
+                keyFormat: /^[a-f0-9]{32}$/,
+                pricing: 'freemium'
+            },
+            'shodan': {
+                name: 'Shodan',
+                endpoint: 'api.shodan.io/shodan/host/{ip}',
+                description: 'Internet-connected device search',
+                category: 'network',
+                status: 'active',
+                health: 'good',
+                authentication: 'API Key',
+                keyFormat: /^[A-Za-z0-9]{32}$/,
+                pricing: 'freemium'
+            },
+            'censys': {
+                name: 'Censys',
+                endpoint: 'search.censys.io/api/v2/hosts',
+                description: 'Internet host and certificate search',
+                category: 'network',
+                status: 'active',
+                health: 'excellent',
+                authentication: 'API Key',
+                keyFormat: /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+                pricing: 'freemium'
+            },
+            
+            // Security APIs
+            'virustotal': {
+                name: 'VirusTotal',
+                endpoint: 'www.virustotal.com/api/v3',
+                description: 'File and URL analysis',
+                category: 'security',
+                status: 'active',
+                health: 'excellent',
+                authentication: 'API Key',
+                keyFormat: /^[a-f0-9]{64}$/,
+                pricing: 'freemium'
+            },
+            'abuseipdb': {
+                name: 'AbuseIPDB',
+                endpoint: 'api.abuseipdb.com/api/v2',
+                description: 'IP reputation and abuse reports',
+                category: 'security',
+                status: 'active',
+                health: 'good',
+                authentication: 'API Key',
+                keyFormat: /^[a-f0-9]{80}$/,
+                pricing: 'freemium'
+            },
+            'hibp': {
+                name: 'Have I Been Pwned',
+                endpoint: 'haveibeenpwned.com/api/v3',
+                description: 'Data breach monitoring',
+                category: 'security',
+                status: 'active',
+                health: 'fair',
+                authentication: 'API Key',
+                keyFormat: /^[a-f0-9]{32}$/,
+                pricing: 'paid'
+            },
+            
+            // AI/ML APIs
+            'openai': {
+                name: 'OpenAI',
+                endpoint: 'api.openai.com/v1',
+                description: 'GPT models and AI services',
+                category: 'ai',
+                status: 'active',
+                health: 'excellent',
+                authentication: 'API Key',
+                keyFormat: /^sk-[A-Za-z0-9]{48}$/,
+                pricing: 'paid'
+            },
+            'anthropic': {
+                name: 'Anthropic Claude',
+                endpoint: 'api.anthropic.com/v1',
+                description: 'Claude AI assistant',
+                category: 'ai',
+                status: 'active',
+                health: 'excellent',
+                authentication: 'API Key',
+                keyFormat: /^sk-ant-[A-Za-z0-9\-_]{95}$/,
+                pricing: 'paid'
+            },
+            'gemini': {
+                name: 'Google Gemini',
+                endpoint: 'generativelanguage.googleapis.com',
+                description: 'Google\'s AI language model',
+                category: 'ai',
+                status: 'active',
+                health: 'good',
+                authentication: 'API Key',
+                keyFormat: /^AIza[0-9A-Za-z\-_]{35}$/,
+                pricing: 'freemium'
+            }
+        };
+
+        // ===============================
+        // ENHANCED API KEY GENERATOR
+        // ===============================
+        const advancedKeyGenerator = {
+            // Generate cryptographically secure random string
+            generateSecureRandom: function(length, charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
+                const array = new Uint8Array(length);
+                crypto.getRandomValues(array);
+                return Array.from(array, byte => charset[byte % charset.length]).join('');
+            },
+            
+            // Generate hex string
+            generateHex: function(length) {
+                return this.generateSecureRandom(length, '0123456789abcdef');
+            },
+            
+            // Generate base64-like string
+            generateBase64: function(length) {
+                return this.generateSecureRandom(length, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_');
+            },
+            
+            // Generate UUID v4
+            generateUUID: function() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = crypto.getRandomValues(new Uint8Array(1))[0] % 16;
+                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            },
+            
+            // Generate timestamp
+            generateTimestamp: function() {
+                return Date.now().toString();
+            },
+            
+            // Service-specific key generators
+            generateOpenAIKey: function() {
+                return 'sk-' + this.generateSecureRandom(48);
+            },
+            
+            generateAnthropicKey: function() {
+                return 'sk-ant-' + this.generateBase64(95);
+            },
+            
+            generateGoogleKey: function() {
+                return 'AIza' + this.generateBase64(35);
+            },
+            
+            generateGitHubKey: function() {
+                return 'ghp_' + this.generateSecureRandom(36);
+            },
+            
+            generateStripeKey: function() {
+                return 'sk_test_' + this.generateSecureRandom(24);
+            },
+            
+            generateAWSKey: function() {
+                return {
+                    accessKeyId: 'AKIA' + this.generateSecureRandom(16, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),
+                    secretAccessKey: this.generateBase64(40)
+                };
+            },
+            
+            generateAzureKey: function() {
+                return this.generateHex(32);
+            },
+            
+            // Generate key based on service
+            generateForService: function(service) {
+                switch(service) {
+                    case 'openai':
+                        return this.generateOpenAIKey();
+                    case 'anthropic':
+                        return this.generateAnthropicKey();
+                    case 'google':
+                        return this.generateGoogleKey();
+                    case 'github':
+                        return this.generateGitHubKey();
+                    case 'stripe':
+                        return this.generateStripeKey();
+                    case 'aws':
+                        return this.generateAWSKey();
+                    case 'azure':
+                        return this.generateAzureKey();
+                    default:
+                        return this.generateUUID();
+                }
+            },
+            
+            // Generate key from custom format
+            generateFromFormat: function(format) {
+                return format.replace(/\{(\d+)\}/g, (match, length) => {
+                    return this.generateSecureRandom(parseInt(length));
+                }).replace(/\{timestamp\}/g, this.generateTimestamp());
+            },
+            
+            // Generate multiple keys
+            generateMultiple: function(service, count) {
+                const keys = [];
+                for (let i = 0; i < count; i++) {
+                    keys.push(this.generateForService(service));
+                }
+                return keys;
+            },
+            
+            // Generate keys for all services
+            generateAllServices: function() {
+                const keys = {};
+                for (const [serviceId, serviceInfo] of Object.entries(apiDatabase)) {
+                    keys[serviceId] = this.generateForService(serviceId);
+                }
+                return keys;
+            },
+            
+            // Validate key format
+            validateKey: function(service, key) {
+                const serviceInfo = apiDatabase[service];
+                if (!serviceInfo || !serviceInfo.keyFormat) {
+                    return key.length > 5; // Basic validation
+                }
+                return serviceInfo.keyFormat.test(key);
+            }
+        };
+
+        // ===============================
+        // REAL API TESTING (NO SIMULATION)
+        // ===============================
+        const realAPITester = {
+            // Test OpenWeatherMap API
+            testOpenWeather: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKey}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test GitHub API
+            testGitHub: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://api.github.com/user', {
+                        headers: {
+                            'Authorization': `token ${apiKey}`,
+                            'User-Agent': 'NEXUS-API-Dashboard',
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test OpenAI API
+            testOpenAI: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://api.openai.com/v1/models', {
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test Anthropic API
+            testAnthropic: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://api.anthropic.com/v1/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json',
+                            'anthropic-version': '2023-06-01'
+                        },
+                        body: JSON.stringify({
+                            model: 'claude-3-sonnet-20240229',
+                            max_tokens: 10,
+                            messages: [
+                                {
+                                    role: 'user',
+                                    content: 'Test'
+                                }
+                            ]
+                        })
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test VirusTotal API
+            testVirusTotal: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch('https://www.virustotal.com/api/v3/urls', {
+                        method: 'POST',
+                        headers: {
+                            'x-apikey': apiKey,
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'url=https://www.google.com'
+                    });
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test Shodan API
+            testShodan: async function(apiKey) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch(`https://api.shodan.io/shodan/host/8.8.8.8?key=${apiKey}`);
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries())
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Test generic API endpoint with advanced options
+            testGenericAPI: async function(endpoint, apiKey, options = {}) {
+                const startTime = Date.now();
+                try {
+                    const {
+                        method = 'GET',
+                        headers = {},
+                        body = null,
+                        authType = 'bearer',
+                        timeout = 10000
+                    } = options;
+                    
+                    const defaultHeaders = {
+                        'Content-Type': 'application/json',
+                        ...headers
+                    };
+                    
+                    // Add authentication based on type
+                    if (apiKey) {
+                        switch (authType.toLowerCase()) {
+                            case 'bearer':
+                                defaultHeaders['Authorization'] = `Bearer ${apiKey}`;
+                                break;
+                            case 'token':
+                                defaultHeaders['Authorization'] = `token ${apiKey}`;
+                                break;
+                            case 'api-key':
+                                defaultHeaders['X-API-Key'] = apiKey;
+                                break;
+                            case 'basic':
+                                defaultHeaders['Authorization'] = `Basic ${btoa(apiKey)}`;
+                                break;
+                        }
+                    }
+                    
+                    // Create abort controller for timeout
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), timeout);
+                    
+                    const response = await fetch(`https://${endpoint}`, {
+                        method,
+                        headers: defaultHeaders,
+                        body: body ? JSON.stringify(body) : null,
+                        signal: controller.signal
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    
+                    const responseTime = Date.now() - startTime;
+                    const data = response.ok ? await response.json() : await response.text();
+                    
+                    return {
+                        success: response.ok,
+                        status: response.status,
+                        responseTime,
+                        data,
+                        headers: Object.fromEntries(response.headers.entries()),
+                        url: response.url
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message,
+                        responseTime: Date.now() - startTime,
+                        status: 0
+                    };
+                }
+            },
+            
+            // Get appropriate tester for service
+            getServiceTester: function(serviceId) {
+                const testers = {
+                    'openweather': this.testOpenWeather,
+                    'github': this.testGitHub,
+                    'openai': this.testOpenAI,
+                    'anthropic': this.testAnthropic,
+                    'virustotal': this.testVirusTotal,
+                    'shodan': this.testShodan
+                };
+                
+                return testers[serviceId] || this.testGenericAPI;
+            }
+        };
+
+        // ===============================
+        // ENHANCED UI FUNCTIONALITY
+        // ===============================
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+            startRealTimeUpdates();
+            generateUsageChart();
+        });
+        
+        function initializeApp() {
+            // Update statistics
+            updateStatistics();
+            
+            // Initialize filters
+            setupFilters();
+            
+            // Load saved settings
+            loadSettings();
+            
+            // Show welcome message
+            showToast('Welcome to NEXUS API Dashboard!', 'info');
+        }
+        
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    switchCategory(category);
+                    
+                    // Update active state
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Modal controls
+            setupModalControls();
+            
+            // API testing
+            setupAPITesting();
+            
+            // Key generation
+            setupKeyGeneration();
+            
+            // Key management
+            setupKeyManagement();
+            
+            // Settings
+            setupSettings();
+            
+            // Real-time monitor
+            setupRealTimeMonitor();
+        }
+        
+        function setupModalControls() {
+            // Key generator modal
+            document.getElementById('generate-keys').addEventListener('click', () => {
+                document.getElementById('keygen-modal').style.display = 'flex';
+            });
+            
+            document.getElementById('keygen-close').addEventListener('click', () => {
+                document.getElementById('keygen-modal').style.display = 'none';
+            });
+            
+            // Settings modal
+            document.getElementById('settings-button').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'flex';
+            });
+            
+            document.getElementById('settings-close').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'none';
+            });
+            
+            // Real-time monitor modal
+            document.getElementById('real-time-monitor').addEventListener('click', () => {
+                document.getElementById('monitor-modal').style.display = 'flex';
+                startLiveMonitoring();
+            });
+            
+            document.getElementById('monitor-close').addEventListener('click', () => {
+                document.getElementById('monitor-modal').style.display = 'none';
+                stopLiveMonitoring();
+            });
+            
+            // Key management modal
+            document.getElementById('key-management-close').addEventListener('click', () => {
+                document.getElementById('key-management-modal').style.display = 'none';
+            });
+            
+            // Close modals on outside click
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        function setupAPITesting() {
+            document.querySelectorAll('.test-api').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const apiId = this.getAttribute('data-api');
+                    await testAPI(apiId, this);
+                });
+            });
+        }
+        
+        async function testAPI(apiId, button) {
+            const originalText = button.textContent;
+            button.innerHTML = '<div class="loading"></div>';
+            button.disabled = true;
+            
+            try {
+                const apiInfo = apiDatabase[apiId];
+                
+                // Get stored API key
+                const apiKey = getStoredAPIKey(apiId);
+                
+                let result;
+                if (apiKey) {
+                    // Test with real API using service-specific tester
+                    const tester = realAPITester.getServiceTester(apiId);
+                    if (tester === realAPITester.testGenericAPI) {
+                        // Use generic tester with service-specific options
+                        const authType = getAuthTypeForService(apiId);
+                        result = await tester(apiInfo.endpoint, apiKey, { authType });
+                    } else {
+                        // Use service-specific tester
+                        result = await tester(apiKey);
+                    }
+                } else {
+                    // Test without key (limited functionality)
+                    showToast(`No API key found for ${apiInfo.name}. Testing basic connectivity...`, 'warning');
+                    result = await realAPITester.testGenericAPI(apiInfo.endpoint, null, { 
+                        authType: 'none',
+                        timeout: 5000 
+                    });
+                }
+                
+                const responseTime = result.responseTime;
+                
+                if (result.success) {
+                    button.innerHTML = `<i class="fas fa-check"></i> ${responseTime}ms`;
+                    button.style.background = 'var(--success)';
+                    
+                    // Show detailed success message
+                    const statusText = result.status ? ` (${result.status})` : '';
+                    showToast(`${apiInfo.name} test successful! Response: ${responseTime}ms${statusText}`, 'success');
+                    
+                    // Update health and analytics
+                    updateAPIHealth(apiId, responseTime);
+                    trackAPIUsage(apiId, true, responseTime);
+                    
+                    // Log detailed response for debugging
+                    console.log(`API Test Success - ${apiInfo.name}:`, {
+                        responseTime,
+                        status: result.status,
+                        headers: result.headers,
+                        dataPreview: typeof result.data === 'string' ? 
+                            result.data.substring(0, 100) + '...' : 
+                            JSON.stringify(result.data).substring(0, 100) + '...'
+                    });
+                    
+                } else {
+                    throw new Error(result.error || `HTTP ${result.status || 'Unknown'}`);
+                }
+                
+            } catch (error) {
+                button.innerHTML = '<i class="fas fa-times"></i> Failed';
+                button.style.background = 'var(--danger)';
+                
+                // Provide more detailed error information
+                let errorMessage = error.message;
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Request timeout';
+                } else if (error.message.includes('CORS')) {
+                    errorMessage = 'CORS policy restriction';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Network error or service unavailable';
+                }
+                
+                showToast(`${apiDatabase[apiId].name} test failed: ${errorMessage}`, 'error');
+                trackAPIUsage(apiId, false, 0);
+                
+                console.error(`API Test Failed - ${apiDatabase[apiId].name}:`, error);
+                
+            } finally {
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '';
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+        
+        // Helper function to get auth type for service
+        function getAuthTypeForService(serviceId) {
+            const authTypes = {
+                'openweather': 'api-key',
+                'github': 'token',
+                'openai': 'bearer',
+                'anthropic': 'bearer',
+                'virustotal': 'api-key',
+                'shodan': 'api-key',
+                'censys': 'basic'
+            };
+            
+            return authTypes[serviceId] || 'bearer';
+        }
+        
+        // Enhanced analytics tracking
+        function trackAPIUsage(apiId, success, responseTime) {
+            const usage = JSON.parse(localStorage.getItem('apiUsageStats') || '{}');
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (!usage[today]) {
+                usage[today] = {};
+            }
+            
+            if (!usage[today][apiId]) {
+                usage[today][apiId] = {
+                    requests: 0,
+                    successes: 0,
+                    totalResponseTime: 0,
+                    errors: []
+                };
+            }
+            
+            const stats = usage[today][apiId];
+            stats.requests++;
+            
+            if (success) {
+                stats.successes++;
+                stats.totalResponseTime += responseTime;
+            } else {
+                stats.errors.push({
+                    timestamp: new Date().toISOString(),
+                    error: 'Test failed'
+                });
+            }
+            
+            // Keep only last 30 days
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            
+            Object.keys(usage).forEach(date => {
+                if (new Date(date) < thirtyDaysAgo) {
+                    delete usage[date];
+                }
+            });
+            
+            localStorage.setItem('apiUsageStats', JSON.stringify(usage));
+        }
+        
+        function setupKeyGeneration() {
+            const serviceSelect = document.getElementById('api-service-select');
+            const customFormatGroup = document.getElementById('custom-format-group');
+            const generateSingleBtn = document.getElementById('generate-single-key');
+            const generateAllBtn = document.getElementById('generate-all-keys');
+            const exportBtn = document.getElementById('export-keys');
+            const importBtn = document.getElementById('import-keys');
+            const terminal = document.getElementById('keygen-terminal');
+            
+            // Show/hide custom format input
+            serviceSelect.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    customFormatGroup.style.display = 'block';
+                } else {
+                    customFormatGroup.style.display = 'none';
+                }
+            });
+            
+            // Generate single/multiple keys
+            generateSingleBtn.addEventListener('click', function() {
+                const service = serviceSelect.value;
+                const count = parseInt(document.getElementById('key-count').value);
+                const customFormat = document.getElementById('custom-format').value;
+                
+                if (!service) {
+                    showToast('Please select a service first', 'warning');
+                    return;
+                }
+                
+                generateKeys(service, count, customFormat);
+            });
+            
+            // Generate all keys
+            generateAllBtn.addEventListener('click', function() {
+                generateAllKeys();
+            });
+            
+            // Export keys
+            exportBtn.addEventListener('click', function() {
+                exportKeys();
+            });
+            
+            // Import keys
+            importBtn.addEventListener('click', function() {
+                importKeys();
+            });
+        }
+        
+        function generateKeys(service, count, customFormat) {
+            const terminal = document.getElementById('keygen-terminal');
+            terminal.innerHTML = '';
+            
+            addTerminalLine(terminal, '>', `Generating ${count} key(s) for ${service}...`);
+            
+            setTimeout(() => {
+                try {
+                    let keys;
+                    if (service === 'custom' && customFormat) {
+                        keys = Array.from({length: count}, () => 
+                            advancedKeyGenerator.generateFromFormat(customFormat)
+                        );
+                    } else {
+                        keys = advancedKeyGenerator.generateMultiple(service, count);
+                    }
+                    
+                    addTerminalLine(terminal, '', '✓ Keys generated successfully:');
+                    
+                    keys.forEach((key, index) => {
+                        if (typeof key === 'object') {
+                            // Handle AWS-style keys with multiple parts
+                            addTerminalLine(terminal, '', `  Key ${index + 1}:`);
+                            Object.entries(key).forEach(([keyType, keyValue]) => {
+                                addTerminalLine(terminal, '', `    ${keyType}: ${keyValue}`);
+                            });
+                        } else {
+                            addTerminalLine(terminal, '', `  Key ${index + 1}: ${key}`);
+                        }
+                    });
+                    
+                    // Store keys
+                    storeGeneratedKeys(service, keys);
+                    
+                    addTerminalLine(terminal, '>', 'Keys saved to secure storage');
+                    showToast(`Generated ${count} key(s) successfully!`, 'success');
+                    
+                } catch (error) {
+                    addTerminalLine(terminal, '', `✗ Error: ${error.message}`, 'terminal-error');
+                    showToast('Key generation failed', 'error');
+                }
+            }, 1000);
+        }
+        
+        function generateAllKeys() {
+            const terminal = document.getElementById('keygen-terminal');
+            terminal.innerHTML = '';
+            
+            addTerminalLine(terminal, '>', 'Initializing bulk key generation...');
+            
+            setTimeout(() => {
+                addTerminalLine(terminal, '>', `Scanning ${Object.keys(apiDatabase).length} API services...`);
+                
+                setTimeout(() => {
+                    addTerminalLine(terminal, '>', 'Generating secure keys for all services...');
+                    
+                    setTimeout(() => {
+                        try {
+                            const allKeys = advancedKeyGenerator.generateAllServices();
+                            
+                            addTerminalLine(terminal, '', '✓ Successfully generated keys for all services:');
+                            
+                            let count = 0;
+                            for (const [serviceId, key] of Object.entries(allKeys)) {
+                                if (count < 5) {
+                                    const serviceName = apiDatabase[serviceId].name;
+                                    const keyPreview = typeof key === 'string' ? 
+                                        key.substring(0, 12) + '...' : 
+                                        'Multi-part key';
+                                    addTerminalLine(terminal, '', `  ${serviceName}: ${keyPreview}`);
+                                }
+                                count++;
+                            }
+                            
+                            if (count > 5) {
+                                addTerminalLine(terminal, '', `  ... and ${count - 5} more services`);
+                            }
+                            
+                            // Store all keys
+                            localStorage.setItem('generatedAPIKeys', JSON.stringify(allKeys));
+                            
+                            addTerminalLine(terminal, '>', 'All keys saved to secure storage');
+                            showToast(`Generated keys for ${count} services!`, 'success');
+                            
+                            // Update statistics
+                            updateGeneratedKeysCount(count);
+                            
+                        } catch (error) {
+                            addTerminalLine(terminal, '', `✗ Error: ${error.message}`, 'terminal-error');
+                            showToast('Bulk key generation failed', 'error');
+                        }
+                    }, 1500);
+                }, 1000);
+            }, 500);
+        }
+        
+        function exportKeys() {
+            try {
+                const keys = JSON.parse(localStorage.getItem('generatedAPIKeys') || '{}');
+                const dataStr = JSON.stringify(keys, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `api-keys-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                showToast('Keys exported successfully!', 'success');
+            } catch (error) {
+                showToast('Export failed: ' + error.message, 'error');
+            }
+        }
+        
+        function importKeys() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const keys = JSON.parse(e.target.result);
+                        localStorage.setItem('generatedAPIKeys', JSON.stringify(keys));
+                        showToast('Keys imported successfully!', 'success');
+                        
+                        // Update terminal
+                        const terminal = document.getElementById('keygen-terminal');
+                        addTerminalLine(terminal, '>', `Imported ${Object.keys(keys).length} API keys`);
+                        
+                    } catch (error) {
+                        showToast('Import failed: Invalid file format', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        function setupKeyManagement() {
+            let currentServiceId = null;
+            
+            // Setup manage key buttons
+            document.querySelectorAll('.manage-key-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-api');
+                    openKeyManagement(serviceId);
+                });
+                
+                // Update button appearance based on key availability
+                const serviceId = button.getAttribute('data-api');
+                const hasKey = getStoredAPIKey(serviceId) !== null;
+                if (hasKey) {
+                    button.classList.add('has-key');
+                }
+            });
+            
+            // Key management modal controls
+            const modal = document.getElementById('key-management-modal');
+            const currentKeyInput = document.getElementById('current-api-key');
+            const toggleVisibilityBtn = document.getElementById('toggle-key-visibility');
+            const saveKeyBtn = document.getElementById('save-api-key');
+            const testKeyBtn = document.getElementById('test-api-key');
+            const generateNewBtn = document.getElementById('generate-new-key');
+            const deleteKeyBtn = document.getElementById('delete-api-key');
+            
+            // Toggle key visibility
+            toggleVisibilityBtn.addEventListener('click', function() {
+                const input = currentKeyInput;
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fas fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fas fa-eye';
+                }
+            });
+            
+            // Save API key
+            saveKeyBtn.addEventListener('click', function() {
+                if (!currentServiceId) return;
+                
+                const key = currentKeyInput.value.trim();
+                if (!key) {
+                    showToast('Please enter an API key', 'warning');
+                    return;
+                }
+                
+                // Validate key format
+                const isValid = advancedKeyGenerator.validateKey(currentServiceId, key);
+                if (!isValid) {
+                    showToast('Invalid key format for this service', 'error');
+                    updateKeyStatus('invalid', 'Invalid format');
+                    return;
+                }
+                
+                // Store the key
+                storeAPIKey(currentServiceId, key);
+                updateKeyStatus('valid', 'Key saved successfully');
+                showToast('API key saved successfully!', 'success');
+                
+                // Update manage button appearance
+                const manageBtn = document.querySelector(`[data-api="${currentServiceId}"].manage-key-btn`);
+                if (manageBtn) {
+                    manageBtn.classList.add('has-key');
+                }
+                
+                // Update statistics
+                loadKeyStatistics(currentServiceId);
+            });
+            
+            // Test API key
+            testKeyBtn.addEventListener('click', async function() {
+                if (!currentServiceId) return;
+                
+                const key = currentKeyInput.value.trim();
+                if (!key) {
+                    showToast('Please enter an API key to test', 'warning');
+                    return;
+                }
+                
+                updateKeyStatus('testing', 'Testing key...');
+                this.disabled = true;
+                this.innerHTML = '<div class="loading"></div> Testing...';
+                
+                try {
+                    const apiInfo = apiDatabase[currentServiceId];
+                    const tester = realAPITester.getServiceTester(currentServiceId);
+                    
+                    let result;
+                    if (tester === realAPITester.testGenericAPI) {
+                        const authType = getAuthTypeForService(currentServiceId);
+                        result = await tester(apiInfo.endpoint, key, { authType });
+                    } else {
+                        result = await tester(key);
+                    }
+                    
+                    if (result.success) {
+                        updateKeyStatus('valid', `Test successful (${result.responseTime}ms)`);
+                        showToast('API key test successful!', 'success');
+                    } else {
+                        updateKeyStatus('invalid', `Test failed: ${result.error || 'Unknown error'}`);
+                        showToast('API key test failed', 'error');
+                    }
+                } catch (error) {
+                    updateKeyStatus('invalid', `Test error: ${error.message}`);
+                    showToast('API key test failed', 'error');
+                } finally {
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-vial"></i> Test Key';
+                }
+            });
+            
+            // Generate new key
+            generateNewBtn.addEventListener('click', function() {
+                if (!currentServiceId) return;
+                
+                const newKey = advancedKeyGenerator.generateForService(currentServiceId);
+                if (typeof newKey === 'object') {
+                    // Handle multi-part keys (like AWS)
+                    currentKeyInput.value = JSON.stringify(newKey, null, 2);
+                } else {
+                    currentKeyInput.value = newKey;
+                }
+                
+                updateKeyStatus('unknown', 'Generated key (not saved)');
+                showToast('New API key generated! Remember to save it.', 'info');
+            });
+            
+            // Delete API key
+            deleteKeyBtn.addEventListener('click', function() {
+                if (!currentServiceId) return;
+                
+                if (confirm('Are you sure you want to delete this API key?')) {
+                    deleteStoredAPIKey(currentServiceId);
+                    currentKeyInput.value = '';
+                    updateKeyStatus('unknown', 'Key deleted');
+                    showToast('API key deleted', 'success');
+                    
+                    // Update manage button appearance
+                    const manageBtn = document.querySelector(`[data-api="${currentServiceId}"].manage-key-btn`);
+                    if (manageBtn) {
+                        manageBtn.classList.remove('has-key');
+                    }
+                    
+                    // Clear statistics
+                    clearKeyStatistics();
+                }
+            });
+            
+            function openKeyManagement(serviceId) {
+                currentServiceId = serviceId;
+                const serviceInfo = apiDatabase[serviceId];
+                
+                // Update modal content
+                document.getElementById('key-service-name').textContent = serviceInfo.name;
+                document.getElementById('service-endpoint').textContent = serviceInfo.endpoint;
+                document.getElementById('service-auth').textContent = serviceInfo.authentication;
+                
+                // Set documentation link
+                const docsLink = document.getElementById('service-docs');
+                if (serviceInfo.documentation) {
+                    docsLink.href = serviceInfo.documentation;
+                    docsLink.style.display = 'inline';
+                } else {
+                    docsLink.style.display = 'none';
+                }
+                
+                // Load current key
+                const currentKey = getStoredAPIKey(serviceId);
+                currentKeyInput.value = currentKey || '';
+                
+                // Update key format hint
+                const formatHint = document.getElementById('key-format-hint');
+                const keyFormats = {
+                    'openai': 'Format: sk-[48 characters]',
+                    'anthropic': 'Format: sk-ant-[95 characters]',
+                    'google': 'Format: AIza[35 characters]',
+                    'github': 'Format: ghp_[36 characters]',
+                    'openweather': 'Format: [32 hex characters]',
+                    'shodan': 'Format: [32 alphanumeric characters]'
+                };
+                formatHint.textContent = keyFormats[serviceId] || 'Enter your API key for this service';
+                
+                // Update key status
+                if (currentKey) {
+                    const isValid = advancedKeyGenerator.validateKey(serviceId, currentKey);
+                    updateKeyStatus(isValid ? 'valid' : 'invalid', isValid ? 'Key format valid' : 'Invalid key format');
+                } else {
+                    updateKeyStatus('unknown', 'No key stored');
+                }
+                
+                // Load statistics
+                loadKeyStatistics(serviceId);
+                
+                // Show modal
+                modal.style.display = 'flex';
+            }
+            
+            function updateKeyStatus(status, message) {
+                const indicator = document.getElementById('key-status-indicator');
+                const icons = {
+                    'unknown': 'fas fa-question-circle',
+                    'valid': 'fas fa-check-circle',
+                    'invalid': 'fas fa-times-circle',
+                    'testing': 'fas fa-spinner fa-spin'
+                };
+                
+                indicator.className = `status-indicator ${status}`;
+                indicator.innerHTML = `<i class="${icons[status]}"></i> ${message}`;
+            }
+            
+            function loadKeyStatistics(serviceId) {
+                const usage = JSON.parse(localStorage.getItem('apiUsageStats') || '{}');
+                let totalRequests = 0;
+                let totalSuccesses = 0;
+                let totalResponseTime = 0;
+                let lastUsed = null;
+                
+                // Aggregate statistics across all days
+                Object.values(usage).forEach(dayData => {
+                    if (dayData[serviceId]) {
+                        const stats = dayData[serviceId];
+                        totalRequests += stats.requests || 0;
+                        totalSuccesses += stats.successes || 0;
+                        totalResponseTime += stats.totalResponseTime || 0;
+                        
+                        if (stats.errors && stats.errors.length > 0) {
+                            const lastError = stats.errors[stats.errors.length - 1];
+                            if (!lastUsed || new Date(lastError.timestamp) > new Date(lastUsed)) {
+                                lastUsed = lastError.timestamp;
+                            }
+                        }
+                    }
+                });
+                
+                // Update statistics display
+                document.getElementById('total-requests').textContent = totalRequests;
+                document.getElementById('success-rate').textContent = 
+                    totalRequests > 0 ? Math.round((totalSuccesses / totalRequests) * 100) + '%' : '0%';
+                document.getElementById('avg-response-time').textContent = 
+                    totalSuccesses > 0 ? Math.round(totalResponseTime / totalSuccesses) + 'ms' : '0ms';
+                document.getElementById('last-used').textContent = 
+                    lastUsed ? new Date(lastUsed).toLocaleDateString() : 'Never';
+            }
+            
+            function clearKeyStatistics() {
+                document.getElementById('total-requests').textContent = '0';
+                document.getElementById('success-rate').textContent = '0%';
+                document.getElementById('avg-response-time').textContent = '0ms';
+                document.getElementById('last-used').textContent = 'Never';
+            }
+        }
+        
+        function setupSettings() {
+            const saveBtn = document.getElementById('save-settings');
+            const resetBtn = document.getElementById('reset-settings');
+            
+            saveBtn.addEventListener('click', function() {
+                const settings = {
+                    theme: document.getElementById('theme-select').value,
+                    refreshInterval: document.getElementById('refresh-interval').value,
+                    enableNotifications: document.getElementById('enable-notifications').checked,
+                    enableSound: document.getElementById('enable-sound').checked
+                };
+                
+                localStorage.setItem('dashboardSettings', JSON.stringify(settings));
+                applySettings(settings);
+                showToast('Settings saved successfully!', 'success');
+            });
+            
+            resetBtn.addEventListener('click', function() {
+                const defaultSettings = {
+                    theme: 'dark',
+                    refreshInterval: 30,
+                    enableNotifications: true,
+                    enableSound: true
+                };
+                
+                localStorage.setItem('dashboardSettings', JSON.stringify(defaultSettings));
+                loadSettings();
+                showToast('Settings reset to default', 'info');
+            });
+        }
+        
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
+            
+            document.getElementById('theme-select').value = settings.theme || 'dark';
+            document.getElementById('refresh-interval').value = settings.refreshInterval || 30;
+            document.getElementById('enable-notifications').checked = settings.enableNotifications !== false;
+            document.getElementById('enable-sound').checked = settings.enableSound !== false;
+            
+            applySettings(settings);
+        }
+        
+        function applySettings(settings) {
+            // Apply theme
+            if (settings.theme === 'light') {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            
+            // Update refresh interval
+            if (window.refreshInterval) {
+                clearInterval(window.refreshInterval);
+            }
+            
+            window.refreshInterval = setInterval(() => {
+                updateStatistics();
+                updateHealthStatus();
+            }, (settings.refreshInterval || 30) * 1000);
+        }
+        
+        function setupRealTimeMonitor() {
+            // This will be implemented with live monitoring functionality
+        }
+        
+        let liveMonitoringInterval;
+        
+        function startLiveMonitoring() {
+            const requestsEl = document.getElementById('live-requests');
+            const latencyEl = document.getElementById('live-latency');
+            const successEl = document.getElementById('live-success');
+            const chartEl = document.getElementById('live-chart');
+            
+            liveMonitoringInterval = setInterval(() => {
+                // Simulate live data (replace with real monitoring)
+                const requests = Math.floor(Math.random() * 100 + 50);
+                const latency = Math.floor(Math.random() * 200 + 100);
+                const success = Math.floor(Math.random() * 10 + 90);
+                
+                requestsEl.textContent = requests;
+                latencyEl.textContent = latency + 'ms';
+                successEl.textContent = success + '%';
+                
+                // Update live chart
+                updateLiveChart(chartEl, {requests, latency, success});
+                
+            }, 2000);
+        }
+        
+        function stopLiveMonitoring() {
+            if (liveMonitoringInterval) {
+                clearInterval(liveMonitoringInterval);
+            }
+        }
+        
+        function updateLiveChart(container, data) {
+            // Simple bar chart implementation
+            const bars = container.querySelectorAll('.chart-bar');
+            if (bars.length === 0) {
+                // Create initial bars
+                ['Requests', 'Latency', 'Success'].forEach((label, index) => {
+                    const bar = document.createElement('div');
+                    bar.className = 'chart-bar';
+                    bar.style.height = '50px';
+                    
+                    const labelEl = document.createElement('div');
+                    labelEl.className = 'chart-label';
+                    labelEl.textContent = label;
+                    bar.appendChild(labelEl);
+                    
+                    container.appendChild(bar);
+                });
+            }
+            
+            // Update bar heights based on data
+            const newBars = container.querySelectorAll('.chart-bar');
+            if (newBars.length >= 3) {
+                newBars[0].style.height = Math.max(20, data.requests * 2) + 'px';
+                newBars[1].style.height = Math.max(20, data.latency) + 'px';
+                newBars[2].style.height = Math.max(20, data.success * 2) + 'px';
+            }
+        }
+        
+        // ===============================
+        // UTILITY FUNCTIONS
+        // ===============================
+        
+        function addTerminalLine(terminal, prompt, text, className = 'terminal-output') {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            
+            if (prompt) {
+                const promptSpan = document.createElement('span');
+                promptSpan.className = 'terminal-prompt';
+                promptSpan.textContent = prompt;
+                line.appendChild(promptSpan);
+            }
+            
+            const textSpan = document.createElement('span');
+            textSpan.className = className;
+            textSpan.textContent = text;
+            line.appendChild(textSpan);
+            
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-exclamation-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            }[type] || 'fas fa-info-circle';
+            
+            toast.innerHTML = `
+                <i class="${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // Hide and remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 4000);
+        }
+        
+        function updateStatistics() {
+            const totalApis = Object.keys(apiDatabase).length;
+            const activeApis = Object.values(apiDatabase).filter(api => api.status === 'active').length;
+            const avgResponse = Math.floor(Math.random() * 100 + 100); // Simulated
+            const generatedKeys = JSON.parse(localStorage.getItem('generatedAPIKeys') || '{}');
+            
+            document.getElementById('total-apis').textContent = totalApis;
+            document.getElementById('active-apis').textContent = activeApis;
+            document.getElementById('avg-response').textContent = avgResponse + 'ms';
+            document.getElementById('generated-keys').textContent = Object.keys(generatedKeys).length;
+        }
+        
+        function updateGeneratedKeysCount(count) {
+            document.getElementById('generated-keys').textContent = count;
+        }
+        
+        function generateUsageChart() {
+            const chartContainer = document.getElementById('usage-chart');
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            
+            days.forEach(day => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = Math.floor(Math.random() * 150 + 50) + 'px';
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = day;
+                bar.appendChild(label);
+                
+                chartContainer.appendChild(bar);
+            });
+        }
+        
+        function switchCategory(category) {
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach(section => {
+                if (category === 'all' || section.getAttribute('data-category') === category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        function setupFilters() {
+            const searchInput = document.getElementById('search-input');
+            const statusFilter = document.getElementById('status-filter');
+            const healthFilter = document.getElementById('health-filter');
+            
+            [searchInput, statusFilter, healthFilter].forEach(element => {
+                element.addEventListener('input', applyFilters);
+            });
+        }
+        
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const healthFilter = document.getElementById('health-filter').value;
+            
+            document.querySelectorAll('.api-table tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesSearch = text.includes(searchTerm);
+                const matchesStatus = statusFilter === 'all' || text.includes(statusFilter);
+                const matchesHealth = healthFilter === 'all' || text.includes(healthFilter);
+                
+                if (matchesSearch && matchesStatus && matchesHealth) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function startRealTimeUpdates() {
+            // Update health indicators periodically
+            setInterval(() => {
+                updateHealthStatus();
+            }, 10000);
+            
+            // Update statistics
+            setInterval(() => {
+                updateStatistics();
+            }, 30000);
+        }
+        
+        function updateHealthStatus() {
+            // Simulate health changes
+            Object.keys(apiDatabase).forEach(apiId => {
+                if (Math.random() < 0.1) { // 10% chance to change
+                    const healths = ['excellent', 'good', 'fair', 'poor'];
+                    apiDatabase[apiId].health = healths[Math.floor(Math.random() * healths.length)];
+                }
+            });
+        }
+        
+        function updateAPIHealth(apiId, responseTime) {
+            let newHealth = 'good';
+            
+            if (responseTime < 100) newHealth = 'excellent';
+            else if (responseTime < 300) newHealth = 'good';
+            else if (responseTime < 1000) newHealth = 'fair';
+            else newHealth = 'poor';
+            
+            if (apiDatabase[apiId]) {
+                apiDatabase[apiId].health = newHealth;
+            }
+        }
+        
+        function getStoredAPIKey(apiId) {
+            const keys = JSON.parse(localStorage.getItem('userAPIKeys') || '{}');
+            return keys[apiId] || null;
+        }
+        
+        function storeAPIKey(apiId, key) {
+            const keys = JSON.parse(localStorage.getItem('userAPIKeys') || '{}');
+            keys[apiId] = key;
+            localStorage.setItem('userAPIKeys', JSON.stringify(keys));
+        }
+        
+        function deleteStoredAPIKey(apiId) {
+            const keys = JSON.parse(localStorage.getItem('userAPIKeys') || '{}');
+            delete keys[apiId];
+            localStorage.setItem('userAPIKeys', JSON.stringify(keys));
+        }
+        
+        function storeGeneratedKeys(service, keys) {
+            const existingKeys = JSON.parse(localStorage.getItem('generatedAPIKeys') || '{}');
+            
+            if (Array.isArray(keys)) {
+                existingKeys[service] = keys[0]; // Store first key for single service
+            } else {
+                existingKeys[service] = keys;
+            }
+            
+            localStorage.setItem('generatedAPIKeys', JSON.stringify(existingKeys));
+        }
+    </script>
+</body>
+</html>
